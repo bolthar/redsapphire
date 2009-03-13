@@ -19,17 +19,12 @@ class Cell
   end
 
   def <<(item)
+    raise "Added items must respond to rules" unless item.respond_to?(:rules)
+
     @elements << item
+    return true
   end
 
-  def symbol
-    result = ""
-    @elements.each {|element|
-      result = element
-    }
-    return result
-
-  end
 end
 
 end

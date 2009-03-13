@@ -1,5 +1,8 @@
 
 require 'test/unit'
+require 'rubygems'
+require 'mocha'
+
 include Core
 
 class CellFixture < Test::Unit::TestCase
@@ -19,11 +22,13 @@ class CellFixture < Test::Unit::TestCase
     assert(cell.respond_to? :<<)
   end
 
-  def test_addOperator_Always_AddToElements
+  def test_addOperator_RespondToRules_AddToElements
     cell = Cell.new
     object = Object.new
-    cell << object
+    object.stubs(:rules).returns([])
+    result = cell << object
     assert(cell.include? object)
+    assert(result)
   end
 
   def test_each_Always_CycleAllItemsInElements
@@ -31,6 +36,9 @@ class CellFixture < Test::Unit::TestCase
     stringone = "1";
     stringtwo = "2";
     stringthree = "3";
+    stringone.stubs(:rules).returns([])
+    stringtwo.stubs(:rules).returns([])
+    stringthree.stubs(:rules).returns([])
     cell << stringone
     cell << stringtwo
     cell << stringthree
@@ -39,16 +47,12 @@ class CellFixture < Test::Unit::TestCase
     assert(test, "123")
   end
 
-  def test_symbol_emptyElements_ReturnStringEmpty
+   def test_addOperator_elementDoesNotRespondToRules_Raise
     cell = Cell.new
-    assert_equal(cell.symbol , "")
-  end
+    assert_raise RuntimeError do
+      cell << Object.new
+    end
+   end
+   
 
-  def test_symbol_someElements_returnLastInserted
-    cell = Cell.new
-    cell << "a"
-    cell << "c"
-    cell << "b"
-    assert_equal(cell.symbol, "b")
-  end
 end
