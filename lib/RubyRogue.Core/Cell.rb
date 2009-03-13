@@ -7,11 +7,11 @@ class Cell < Array
   
 
   def <<(item)
-    raise "Added items must respond to rules" unless item.respond_to?(:rules)
+    raise "Item added must respond to method 'fill?'" unless item.respond_to? :fill?
     
     self.each { |element|
-      return false unless element.rules.check(item)
-    }
+      return false if element.fill?
+      }
     super(item)
     return true
   end

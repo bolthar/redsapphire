@@ -6,18 +6,12 @@ require 'test/unit'
 include Core
 
 class WallFixture < Test::Unit::TestCase
-  
-  def test_wall_always_respondsToRules
+   
+
+  def test_always_fillReturnTrue
     wall = Wall.new
-    assert(wall.respond_to? :rules)
+    assert(wall.fill?)
   end
 
-  def test_always_rulesCheckReturnFalse
-    wall = Wall.new
-    assert(wall.rules.count == 1)
-    assert(!wall.rules.check(nil))
-  end
-
-  
 
 end

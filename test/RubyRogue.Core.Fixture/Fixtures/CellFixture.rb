@@ -25,7 +25,7 @@ class CellFixture < Test::Unit::TestCase
   def test_addOperator_RespondToRules_AddToElements
     cell = Cell.new
     object = Object.new
-    object.stubs(:rules).returns([])
+    object.stubs(:fill?).returns(false)
     result = cell << object
     assert(cell.include? object)
     assert(result)
@@ -36,9 +36,9 @@ class CellFixture < Test::Unit::TestCase
     stringone = "1";
     stringtwo = "2";
     stringthree = "3";
-    stringone.stubs(:rules).returns(RuleSet.new)
-    stringtwo.stubs(:rules).returns(RuleSet.new)
-    stringthree.stubs(:rules).returns(RuleSet.new)
+    stringone.stubs(:fill?).returns(false)
+    stringtwo.stubs(:fill?).returns(false)
+    stringthree.stubs(:fill?).returns(false)
     cell << stringone
     cell << stringtwo
     cell << stringthree
@@ -47,19 +47,19 @@ class CellFixture < Test::Unit::TestCase
     assert(test, "123")
   end
 
-   def test_addOperator_elementDoesNotRespondToRules_Raise
+
+  def test_addOperator_itemAddedNotRespondToFill_raise
     cell = Cell.new
     assert_raise RuntimeError do
       cell << Object.new
     end
-   end
+
+  end
 
    def test_addOperator_rulesCheckreturnFalse_returnFalse
-     cell = Cell.new
-     rulesetOne = RuleSet.new
-     rulesetOne.stubs(:check).returns(false)
-     itemOne = stub(:rules => rulesetOne)
-     itemTwo = stub(:rules => [])
+     cell = Cell.new    
+     itemOne = stub(:fill? => true)
+     itemTwo = stub(:fill? => false)
      cell << itemOne
      result = cell << itemTwo
      assert(!result)

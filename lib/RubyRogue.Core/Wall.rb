@@ -4,15 +4,10 @@ module Core
   
   class Wall
 
-    def initialize
-      @rules = RuleSet.new
-      @rules << NoPassRule.new
+    def fill?
+      return true
     end
-
-    def rules
-      return @rules
-    end
-
+    
   end
 
 end
