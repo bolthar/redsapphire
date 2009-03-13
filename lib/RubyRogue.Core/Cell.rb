@@ -3,25 +3,13 @@
 
 
 module Core
-class Cell
-  include Enumerable
-
-  def initialize
-    @elements = []
-  end
-
-  def each
-    @elements.each { |item| yield item }
-  end
-
-  def <=>(other)
-    @elements <=> other
-  end
+class Cell < Array
+  
 
   def <<(item)
     raise "Added items must respond to rules" unless item.respond_to?(:rules)
 
-    @elements << item
+    super(item)
     return true
   end
 

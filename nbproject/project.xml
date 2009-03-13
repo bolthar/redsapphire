@@ -9,7 +9,6 @@
             </source-roots>
             <test-roots>
                 <root id="test.src.dir"/>
-                <root id="spec.src.dir"/>
             </test-roots>
         </data>
     </configuration>

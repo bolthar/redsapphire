@@ -26,8 +26,48 @@ class RuleSetFixture < Test::Unit::TestCase
     ruleset = RuleSet.new
     assert_raise RuntimeError do
       ruleset << Object.new
-    end
-    
+    end    
   end
+
+  def test_check_callCheckOnEachElement
+    ruleset = RuleSet.new
+    testItem = Object.new
+    firstItem = Object.new
+    firstItem.expects(:check).with(testItem).returns(true)
+    secondItem = Object.new
+    secondItem.expects(:check).with(testItem).returns(true)
+    ruleset << firstItem
+    ruleset << secondItem
+    result = ruleset.check(testItem)
+    assert(result)
+  end
+
+   def test_check_allRulesTrue_returnTrue
+    ruleset = RuleSet.new
+    testItem = Object.new
+    firstItem = Object.new
+    firstItem.stubs(:check).returns(true)
+    secondItem = Object.new
+    secondItem.stubs(:check).returns(true)
+    ruleset << firstItem
+    ruleset << secondItem
+    result = ruleset.check(testItem)
+    assert(result)
+  end
+
+   def test_check_oneRuleFalse_returnFalse
+    ruleset = RuleSet.new
+    testItem = Object.new
+    firstItem = Object.new
+    firstItem.stubs(:check).returns(true)
+    secondItem = Object.new
+    secondItem.stubs(:check).returns(false)
+    ruleset << firstItem
+    ruleset << secondItem
+    result = ruleset.check(testItem)
+    assert(!result)
+  end
+
+
 
 end
