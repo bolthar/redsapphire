@@ -1,8 +1,6 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
-
-
 require 'test/unit'
 
 include Core
@@ -43,13 +41,12 @@ class LevelFixture < Test::Unit::TestCase
     end
   end
 
-  def test_at_inBounds_Raise
+  def test_at_inBounds_returnCell
     level = Level.new(100,100)
     cell = level.at(0,0)
     assert(cell.kind_of? Cell) #should use respond_to?
   end
-
   
-
+  
 
 end
