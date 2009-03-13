@@ -8,7 +8,10 @@ class Cell < Array
 
   def <<(item)
     raise "Added items must respond to rules" unless item.respond_to?(:rules)
-
+    
+    self.each { |element|
+      return false unless element.rules.check(item)
+    }
     super(item)
     return true
   end

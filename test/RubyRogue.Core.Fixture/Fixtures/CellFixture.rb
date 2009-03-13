@@ -36,9 +36,9 @@ class CellFixture < Test::Unit::TestCase
     stringone = "1";
     stringtwo = "2";
     stringthree = "3";
-    stringone.stubs(:rules).returns([])
-    stringtwo.stubs(:rules).returns([])
-    stringthree.stubs(:rules).returns([])
+    stringone.stubs(:rules).returns(RuleSet.new)
+    stringtwo.stubs(:rules).returns(RuleSet.new)
+    stringthree.stubs(:rules).returns(RuleSet.new)
     cell << stringone
     cell << stringtwo
     cell << stringthree
@@ -52,6 +52,18 @@ class CellFixture < Test::Unit::TestCase
     assert_raise RuntimeError do
       cell << Object.new
     end
+   end
+
+   def test_addOperator_rulesCheckreturnFalse_returnFalse
+     cell = Cell.new
+     rulesetOne = RuleSet.new
+     rulesetOne.stubs(:check).returns(false)
+     itemOne = stub(:rules => rulesetOne)
+     itemTwo = stub(:rules => [])
+     cell << itemOne
+     result = cell << itemTwo
+     assert(!result)
+     assert(cell.count == 1)
    end
    
 
