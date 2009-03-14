@@ -3,7 +3,6 @@
 module Core
   class Level
 
-
     def initialize(width, height)
       @height = height
       @width = width
@@ -26,11 +25,9 @@ module Core
     end
 
     def at(x,y)
-      raise "width is out of bounds" unless x < width
-      raise "height is out of bounds" unless y < height
-
-      return @cells[x][y]
-      
+      raise "width is out of bounds (#{x})" unless x < width
+      raise "height is out of bounds (#{y})" unless y < height
+      return @cells[x][y]      
     end
 
   end

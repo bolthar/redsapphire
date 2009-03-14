@@ -1,12 +1,10 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
-require 'test/unit'
 
-include Core
+include Core::Elements
 
-class WallFixture < Test::Unit::TestCase
-   
+class WallFixture < Test::Unit::TestCase  
 
   def test_always_fillReturnTrue
     wall = Wall.new

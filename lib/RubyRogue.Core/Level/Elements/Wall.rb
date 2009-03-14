@@ -1,6 +1,6 @@
 
 
-module Core
+module Core::Elements
   
   class Wall
 
