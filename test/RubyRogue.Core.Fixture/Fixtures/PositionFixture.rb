@@ -40,6 +40,11 @@ class PositionFixture < Test::Unit::TestCase
     assert(!(pos1 == pos2))
   end
 
+  def test_move_okay_returnNewPosition
+    position = Position.new(10,10)   
+    assert_equal(position.move!(Direction.Up),Position.new(10,11))
+  end
+
 
 end
 

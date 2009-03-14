@@ -4,6 +4,7 @@
 module Core
 
   class Position
+    
 
     attr_accessor :x, :y
    
@@ -17,6 +18,10 @@ module Core
     def ==(target)
        return true if self.y == target.y if self.x == target.x
        return false
+    end
+
+    def move!(direction)
+      return Position.new(self.x + direction.x,self.y + direction.y)
     end
 
   end
