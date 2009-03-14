@@ -20,6 +20,14 @@ module Core
        return false
     end
 
+    def xOffset(target)
+      return target.x - self.x
+    end
+
+    def yOffset(target)
+      return target.y - self.y
+    end
+
     def move!(direction)
       return Position.new(self.x + direction.x,self.y + direction.y)
     end

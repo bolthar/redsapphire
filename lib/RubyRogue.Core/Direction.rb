@@ -7,12 +7,13 @@ module Core
     
     attr_reader :x, :y
 
+    #static default directions
     def Direction.Up
-      return Direction.new(0,1)
+      return Direction.new(0,-1)
     end
 
     def Direction.UpRight
-      return Direction.new(1,1)
+      return Direction.new(1,-1)
     end
 
     def Direction.Right
@@ -20,15 +21,15 @@ module Core
     end
 
     def Direction.DownRight
-      return Direction.new(1,-1)
+      return Direction.new(1,1)
     end
 
     def Direction.Down
-      return Direction.new(0,-1)
+      return Direction.new(0,1)
     end
 
     def Direction.DownLeft
-      return Direction.new(-1,-1)
+      return Direction.new(-1,1)
     end
 
     def Direction.Left
@@ -36,7 +37,7 @@ module Core
     end
 
     def Direction.UpLeft
-      return Direction.new(-1,1)
+      return Direction.new(-1,-1)
     end
   
     def initialize(x,y)
@@ -56,20 +57,20 @@ module Core
     def cardinalLeft
       if(self.x == 0)
         #up or down                
-        return Direction.new(-self.y,0)
+        return Direction.new(self.y,0)
       else
         #left or right
-         return Direction.new(0,self.x)
+         return Direction.new(0,-self.x)
       end
     end
 
     def cardinalRight
       if(self.x == 0)
         #up or down
-        return Direction.new(self.y,0)
+        return Direction.new(-self.y,0)
       else
         #left or right
-         return Direction.new(0,-self.x)
+         return Direction.new(0,self.x)
       end
     end
 
@@ -82,19 +83,19 @@ module Core
       newY = 0
       if(self.x == 0 || self.y == 0)
         if(self.x == 0)
-          newX = -self.y
+          newX = self.y
           newY = self.y
         else
           newX = self.x
-          newY = self.x
+          newY = -self.x
         end     
       else
         if(self.x + self.y == 0)
-          newX = self.x
-          newY = 0        
-        else
           newX = 0
           newY = self.y
+        else
+          newX = self.x
+          newY = 0
         end        
       end
       return Direction.new(newX,newY)
@@ -105,22 +106,26 @@ module Core
       newY = 0
       if(self.x == 0 || self.y == 0)
         if(self.x == 0)
-          newX = self.y
+          newX = -self.y
           newY = self.y
         else
           newX = self.x
-          newY = -self.x
+          newY = self.x
         end
       else
         if(self.x + self.y != 0)
-          newX = self.x
-          newY = 0
-        else
           newX = 0
           newY = self.y
+        else
+          newX = self.x
+          newY = 0
         end
       end
       return Direction.new(newX,newY)
+    end
+
+    def isCardinal?
+      return (self.x == 0 || self.y == 0)
     end
 
 

@@ -32,13 +32,13 @@ class DirectionFixture < Test::Unit::TestCase
   def test_Up_always_returnCorrectDirection
     up = Direction.Up
     assert(up.x == 0)
-    assert(up.y == 1)
+    assert(up.y == -1)
   end
 
   def test_UpRight_always_returnCorrectDirection
     up = Direction.UpRight
     assert(up.x == 1)
-    assert(up.y == 1)
+    assert(up.y == -1)
   end
 
   def test_Right_always_returnCorrectDirection
@@ -50,19 +50,19 @@ class DirectionFixture < Test::Unit::TestCase
   def test_DownRight_always_returnCorrectDirection
     up = Direction.DownRight
     assert(up.x == 1)
-    assert(up.y == -1)
+    assert(up.y == 1)
   end
 
   def test_Down_always_returnCorrectDirection
     up = Direction.Down
     assert(up.x == 0)
-    assert(up.y == -1)
+    assert(up.y == 1)
   end
 
   def test_DownLeft_always_returnCorrectDirection
     up = Direction.DownLeft
     assert(up.x == -1)
-    assert(up.y == -1)
+    assert(up.y == 1)
   end
 
   def test_Left_always_returnCorrectDirection
@@ -74,7 +74,7 @@ class DirectionFixture < Test::Unit::TestCase
   def test_UpLeft_always_returnCorrectDirection
     up = Direction.UpLeft
     assert(up.x == -1)
-    assert(up.y == 1)
+    assert(up.y == -1)
   end
 
   def test_cardinalLeft_startingRightLEft_returnCorrectDirection
@@ -115,6 +115,16 @@ class DirectionFixture < Test::Unit::TestCase
   def test_right_returnCorrectDirection
     downRight = Direction.Right.right
     assert(downRight == Direction.DownRight)
+  end
+
+  def test_isCardinal_notCardinal_returnFalse
+    upRight = Direction.UpRight
+    assert(!upRight.isCardinal?)
+  end
+
+   def test_isCardinal_Cardinal_returnTrue
+    up = Direction.Up
+    assert(up.isCardinal?)
   end
 
   

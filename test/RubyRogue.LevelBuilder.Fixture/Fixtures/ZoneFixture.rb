@@ -10,7 +10,7 @@ class ZoneFixture < Test::Unit::TestCase
   def test_ctor_always_createCorrectZone
     level = Level.new(100,100)
     zone = Zone.new(level,3,20,2,20)
-    assert(zone.at(14,2) == level.at(74,52))
+    assert(zone.at(14,2).equal?level.at(74,42))
   end
 
   def test_height_returnCorrectValue
@@ -51,8 +51,71 @@ class ZoneFixture < Test::Unit::TestCase
     zone.connect
     assert_raise RuntimeError do
       zone.connect
+    end    
+  end
+
+  def test_ctor_always_assignLevel
+    level = Level.new(100,100)
+    zone = Zone.new(level,3,20,2,20)
+    assert(level == zone.level)
+  end
+
+  def test_merge_notCardinalDirection_raise
+    level = Level.new(100,100)
+    zoneOne = Zone.new(level,0,20,0,20)
+    zoneTwo = Zone.new(level,0,20,1,20)
+    assert_raise RuntimeError do
+      Zone.merge(zoneOne,zoneTwo,Direction.DownLeft)
     end
-    
+
+  end
+
+  def test_merge_down_returnNewZone
+    level = Level.new(100,100)
+    zoneOne = Zone.new(level,0,20,0,20)
+    zoneTwo = Zone.new(level,0,20,1,20)
+    newZone = Zone.merge(zoneOne,zoneTwo,Direction.Down)
+    assert(newZone.level == zoneOne.level)
+    assert(newZone.width == 20)
+    assert(newZone.height == 40)
+    assert(newZone.at(2,2).equal?zoneOne.at(2,2))
+    assert(newZone.at(2,22).equal?zoneTwo.at(2,2))
+  end
+
+  def test_merge_right_returnNewZone
+    level = Level.new(100,100)
+    zoneOne = Zone.new(level,0,20,0,20)
+    zoneTwo = Zone.new(level,1,20,0,20)
+    newZone = Zone.merge(zoneOne,zoneTwo,Direction.Right)
+    assert(newZone.level == zoneOne.level)
+    assert(newZone.width == 40)
+    assert(newZone.height == 20)
+    assert(newZone.at(2,2).equal?zoneOne.at(2,2))
+    assert(newZone.at(29,5).equal?zoneTwo.at(9,5))
+  end
+
+  def test_merge_up_returnNewZone
+    level = Level.new(100,100)
+    zoneOne = Zone.new(level,0,20,1,20)
+    zoneTwo = Zone.new(level,0,20,0,20)
+    newZone = Zone.merge(zoneOne,zoneTwo,Direction.Up)
+    assert(newZone.level == zoneOne.level)
+    assert(newZone.width == 20)
+    assert(newZone.height == 40)
+    assert(newZone.at(12,26).equal?zoneOne.at(12,6))
+    assert(newZone.at(2,5).equal?zoneTwo.at(2,5))
+  end
+
+  def test_merge_left_returnNewZone
+    level = Level.new(100,100)
+    zoneOne = Zone.new(level,1,20,0,20)
+    zoneTwo = Zone.new(level,0,20,0,20)
+    newZone = Zone.merge(zoneOne,zoneTwo,Direction.Left)
+    assert(newZone.level == zoneOne.level)
+    assert(newZone.width == 40)
+    assert(newZone.height == 20)
+    assert(newZone.at(33,10).equal?zoneOne.at(13,10))
+    assert(newZone.at(6,2).equal?zoneTwo.at(6,2))
   end
 
 end
