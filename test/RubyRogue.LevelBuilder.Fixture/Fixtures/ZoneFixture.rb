@@ -9,19 +9,19 @@ class ZoneFixture < Test::Unit::TestCase
 
   def test_ctor_always_createCorrectZone
     level = Level.new(100,100)
-    zone = Zone.new(level,3,20,2,20)
+    zone = Zone.new(level,60,80,40,60)
     assert(zone.at(14,2).equal?level.at(74,42))
   end
 
   def test_height_returnCorrectValue
     level = Level.new(100,100)
-    zone = Zone.new(level,3,20,3,25)
+    zone = Zone.new(level,0,20,20,45)
     assert(zone.height == 25)
   end
 
   def test_width_returnCorrectValue
     level = Level.new(100,100)
-    zone = Zone.new(level,3,25,3,20)
+    zone = Zone.new(level,0,25,0,20)
     assert(zone.width == 25)
   end
 
@@ -73,7 +73,7 @@ class ZoneFixture < Test::Unit::TestCase
   def test_merge_down_returnNewZone
     level = Level.new(100,100)
     zoneOne = Zone.new(level,0,20,0,20)
-    zoneTwo = Zone.new(level,0,20,1,20)
+    zoneTwo = Zone.new(level,0,20,20,40)
     newZone = Zone.merge(zoneOne,zoneTwo,Direction.Down)
     assert(newZone.level == zoneOne.level)
     assert(newZone.width == 20)
@@ -85,7 +85,7 @@ class ZoneFixture < Test::Unit::TestCase
   def test_merge_right_returnNewZone
     level = Level.new(100,100)
     zoneOne = Zone.new(level,0,20,0,20)
-    zoneTwo = Zone.new(level,1,20,0,20)
+    zoneTwo = Zone.new(level,20,40,0,20)
     newZone = Zone.merge(zoneOne,zoneTwo,Direction.Right)
     assert(newZone.level == zoneOne.level)
     assert(newZone.width == 40)
@@ -96,7 +96,7 @@ class ZoneFixture < Test::Unit::TestCase
 
   def test_merge_up_returnNewZone
     level = Level.new(100,100)
-    zoneOne = Zone.new(level,0,20,1,20)
+    zoneOne = Zone.new(level,0,20,20,40)
     zoneTwo = Zone.new(level,0,20,0,20)
     newZone = Zone.merge(zoneOne,zoneTwo,Direction.Up)
     assert(newZone.level == zoneOne.level)
@@ -108,7 +108,7 @@ class ZoneFixture < Test::Unit::TestCase
 
   def test_merge_left_returnNewZone
     level = Level.new(100,100)
-    zoneOne = Zone.new(level,1,20,0,20)
+    zoneOne = Zone.new(level,20,40,0,20)
     zoneTwo = Zone.new(level,0,20,0,20)
     newZone = Zone.merge(zoneOne,zoneTwo,Direction.Left)
     assert(newZone.level == zoneOne.level)

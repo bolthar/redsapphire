@@ -11,19 +11,19 @@ module LevelBuilder
     attr_accessor :center
     attr_reader :level, :xOffset, :yOffset
 
-    def initialize(level, rowOffset, rowWidth, columnOffset, columnWidth)
+    def initialize(level, xFrom, xTo, yFrom, yTo)
       @level = level
-      @width = rowWidth
-      @height = columnWidth
-      @xOffset = rowOffset
-      @yOffset = columnOffset
+      @width = xTo-xFrom
+      @height = yTo-yFrom
+      @xOffset = xFrom
+      @yOffset = yFrom
       @connected = false
       @cells = []
-      for x in 0...rowWidth
+      for x in 0...(xTo-xFrom)
         @cells[x] = []
-        for y in 0...columnWidth
-          xLocation = (rowOffset*rowWidth)+x
-          yLocation = (columnOffset*columnWidth)+y
+        for y in 0...(yTo-yFrom)
+          xLocation = xFrom+x
+          yLocation = yFrom+y
           @cells[x][y] = level.at(xLocation,yLocation)
         end
       end

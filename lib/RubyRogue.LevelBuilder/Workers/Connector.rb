@@ -6,9 +6,9 @@ module LevelBuilder
 
     class Connector
 
-      def connect!(alreadyConnected,toConnect,direction)
-
-        tempZone = Zone.merge(alreadyConnected,toConnect,direction)        
+      def connect!(alreadyConnected,toConnect,direction)        
+        tempZone = Zone.merge(alreadyConnected,toConnect,direction)
+        @inFirstRoom = true
         startPoint = nil
         endPoint = nil
         for x in 0...tempZone.width
@@ -18,6 +18,12 @@ module LevelBuilder
             break if startPoint && endPoint
           end
         end
+        p alreadyConnected.center
+        p toConnect.center
+        p tempZone
+        p direction
+        p startPoint
+        p endPoint
         #determine curve point
         longSide = nil
         shortSide = nil
@@ -43,10 +49,23 @@ module LevelBuilder
 
       private
       def digCorridor!(zone, startPoint, direction, length)
-        length.times do          
+        length.times do           
           startPoint = startPoint.move!(direction)
-          zone.at(startPoint).clear
-        end
+          if(@inFirstRoom)
+            if(zone.at(startPoint).count != 0)
+              @inFirstRoom = false
+              zone.at(startPoint).clear
+              zone.at(startPoint) << Door.new
+            else
+              zone.at(startPoint).clear
+            end
+          else
+            if(zone.at(startPoint).count == 0)
+              zone.at(startPoint.move!(direction.opposite)) << Door.new #turn back and add door
+            end
+            zone.at(startPoint).clear
+          end         
+        end        
         return startPoint
       end
 

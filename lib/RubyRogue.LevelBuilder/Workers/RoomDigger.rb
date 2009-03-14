@@ -6,22 +6,15 @@ module LevelBuilder
 
     class RoomDigger
 
-      def initialize(width,height,x,y)
-        @width = width
-        @height = height
-        @x = x
-        @y = y
-      end
-
-      def buildFeature!(zone)
-        for xPos in @x...(@x + @width)
-          for yPos in @y...(@y + @height)
+      def buildFeature!(zone,x,y,width,height)
+        for xPos in x...(x + width)
+          for yPos in y...(y + height)
             zone.at(xPos,yPos).clear
           end
         end
         #determine zone center
-        centerX = (@width / 2).to_i + @x
-        centerY = (@height / 2).to_i + @y
+        centerX = (width / 2).to_i + x
+        centerY = (height / 2).to_i + y
         zone.center = Position.new(centerX,centerY)
         return true
       end

@@ -128,6 +128,15 @@ module Core
       return (self.x == 0 || self.y == 0)
     end
 
+    def Direction.randomCardinal
+      value = rand(4)
+      return Direction.Up if value == 0
+      return Direction.Right if value == 1
+      return Direction.Left if value == 2
+      return Direction.Down if value == 3
+
+    end
+
 
     
   end

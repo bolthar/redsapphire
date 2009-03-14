@@ -7,7 +7,7 @@ include LevelBuilder::Workers
 class RoomDiggerFixture < Test::Unit::TestCase
 
   def test_buildFeature_widthandHeight_digCorrectNoOfCells
-    builder = RoomDigger.new(2,5,1,1)
+    builder = RoomDigger.new
     level = Level.new(100,100)
     zone = Zone.new(level,0,20,0,20)
     for x in 0...zone.width
@@ -15,7 +15,7 @@ class RoomDiggerFixture < Test::Unit::TestCase
          zone.at(x,y) << Wall.new
       end
     end
-    builder.buildFeature!(zone)
+    builder.buildFeature!(zone,1,1,2,5)
     emptyCellsCount = 0   
     for x in 0...zone.width
       for y in 0...zone.height
@@ -26,7 +26,7 @@ class RoomDiggerFixture < Test::Unit::TestCase
   end
 
   def test_buildFeature_xandy_digRoomAtRightPlace
-    builder = RoomDigger.new(1,1,5,2)
+    builder = RoomDigger.new
     level = Level.new(100,100)
     zone = Zone.new(level,0,20,0,20)
     for x in 0...zone.width
@@ -34,12 +34,12 @@ class RoomDiggerFixture < Test::Unit::TestCase
          zone.at(x,y) << Wall.new
       end
     end
-    builder.buildFeature!(zone)
+    builder.buildFeature!(zone,1,1,5,2)
     assert(zone.at(5,2).count == 0)
   end
 
   def test_buildFeature_squareRoom_assignCenterSomewhereInsideRoom
-    builder = RoomDigger.new(1,1,5,2)
+    builder = RoomDigger.new
     level = Level.new(100,100)
     zone = Zone.new(level,0,20,0,20)
     for x in 0...zone.width
@@ -47,7 +47,7 @@ class RoomDiggerFixture < Test::Unit::TestCase
          zone.at(x,y) << Wall.new
       end
     end
-    builder.buildFeature!(zone)
+    builder.buildFeature!(zone,1,1,5,2)
     assert(zone.at(zone.center).count == 0)
   end
 

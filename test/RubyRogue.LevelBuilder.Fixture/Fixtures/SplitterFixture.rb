@@ -8,8 +8,8 @@ include Core
 class SplitterFixture < Test::Unit::TestCase
 
   def test_split_always_returnsAMatrixOfZones
-    splitter = Splitter.new(5,5)
-    zones = splitter.split(Level.new(100,100))
+    splitter = Splitter.new
+    zones = splitter.split(Level.new(100,100),5,5)
     assert(false) unless zones.respond_to? :[]
     zones.each do |row|
       assert(false) unless row.respond_to? :[]
@@ -18,22 +18,22 @@ class SplitterFixture < Test::Unit::TestCase
   end
 
   def test_split_undivisiblewidth_raise
-    splitter = Splitter.new(3,5)
+    splitter = Splitter.new
     assert_raise RuntimeError do
-      splitter.split(Level.new(100,100))
+      splitter.split(Level.new(100,100),3,5)
     end
   end
 
   def test_split_undivisibleheight_raise
-    splitter = Splitter.new(5,3)
+    splitter = Splitter.new
     assert_raise RuntimeError do
-      splitter.split(Level.new(100,100))
+      splitter.split(Level.new(100,100),5,3)
     end
   end
 
   def test_split_correctMatrixDimension
-    splitter = Splitter.new(5,5)
-    zones = splitter.split(Level.new(100,100))
+    splitter = Splitter.new
+    zones = splitter.split(Level.new(100,100),5,5)
     assert(false) unless zones.count == 5
     zones.each do |column|
       assert(false) unless column.count == 5
