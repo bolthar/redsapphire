@@ -20,7 +20,9 @@ module LevelBuilder
           end
         end
         #determine zone center
-
+        centerX = (@width / 2).to_i + @x
+        centerY = (@height / 2).to_i + @y
+        zone.center = Position.new(centerX,centerY)
         return true
       end
     end
