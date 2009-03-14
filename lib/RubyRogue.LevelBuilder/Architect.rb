@@ -30,41 +30,48 @@ module LevelBuilder
         end          
       end
       zones[0][0].connect #connect first zone
+      p "start"
       while(!allZonesConnected?(zones))
+        "connect"
         connectRandomZone(zones)
       end
     end
 
     private
     def allZonesConnected?(zones)
-      for x in 0...zones.length
-        for y in 0...zones[x].length
+      
+      for x in 0...zones.length        
+        for y in 0...zones[x].length         
           return false if !zones[x][y].connected?
         end
       end
+      "exit method"
       return true
     end
 
     def connectRandomZone(zones)
-      x = 0
-      y = 0
-      connected = false
+      x = rand(zones.length)
+      y = rand(zones[x].length)
+      connected = false      
       while(!connected)
-        while(zones[x][y].connected?)
+        while(!zones[x][y].connected?)         
          x = rand(zones.length)
          y = rand(zones[x].length)
+         
         end
-        direction = Direction.randomCardinal
-        3.times do
-          xTarget = x + direction.x
-          yTarget = y + direction.y
-            if(!zones[xTarget][yTarget].connected? && xTarget > -1 && yTarget > -1)
-              @connector.connect!(zones[x][y],zones[xTarget][yTarget],direction)
-              connected = true
-            end
+        direction = Direction.randomCardinal       
+        xTarget = x + direction.x
+        yTarget = y + direction.y
+        if(xTarget > -1 && yTarget > -1)
+          if(!zones[xTarget][yTarget].connected?)
+             p "source: #{x},#{y}"
+             p "target: #{xTarget},#{yTarget}"
+             @connector.connect!(zones[x][y],zones[xTarget][yTarget],direction)
+             connected = true
+          end
         end
       end
     end
-  end
 
+  end
 end

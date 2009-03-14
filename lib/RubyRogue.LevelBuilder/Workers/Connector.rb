@@ -18,12 +18,6 @@ module LevelBuilder
             break if startPoint && endPoint
           end
         end
-        p alreadyConnected.center
-        p toConnect.center
-        p tempZone
-        p direction
-        p startPoint
-        p endPoint
         #determine curve point
         longSide = nil
         shortSide = nil
@@ -36,15 +30,22 @@ module LevelBuilder
         end
         firstPiece = 1 + rand(longSide)
         secondPiece = shortSide.abs
-        thirdPiece = longSide - firstPiece        
+        thirdPiece = longSide - firstPiece
+        p firstPiece
+        p secondPiece
+        p thirdPiece
+        p direction
+        p startPoint
+        p endPoint
         startPoint = digCorridor!(tempZone, startPoint, direction, firstPiece)
         if shortSide > 0
           startPoint = digCorridor!(tempZone, startPoint, direction.cardinalRight,secondPiece.abs)
         end
         if shortSide < 0
-          startPoint = digCorridor!(tempZone, startPoint, direction.cardinalRight, secondPiece.abs)
+          startPoint = digCorridor!(tempZone, startPoint, direction.cardinalLeft, secondPiece.abs)
         end
         startPoint = digCorridor!(tempZone, startPoint, direction, thirdPiece)
+        toConnect.connect
       end
 
       private

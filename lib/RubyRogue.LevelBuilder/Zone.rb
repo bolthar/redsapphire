@@ -43,38 +43,40 @@ module LevelBuilder
       raise "direction must be cardinal" unless direction.isCardinal?
       
       level = zoneOne.level
-      zoneWidth = 0
-      zoneHeight = 0
+      zoneXfrom = -1
+      zoneXto = -1
+      zoneYfrom = -1
+      zoneYto = -1
 
       if direction == Direction.Up
-        zoneWidth = zoneOne.width
-        zoneHeight = zoneOne.height * 2
-        zoneXoffset = zoneOne.xOffset
-        zoneYoffset = zoneTwo.yOffset
+        zoneXfrom = zoneOne.xOffset
+        zoneXto = zoneOne.xOffset + zoneOne.width
+        zoneYfrom = zoneTwo.yOffset
+        zoneYto = zoneTwo.yOffset + zoneTwo.height + zoneOne.height
       end
 
       if direction == Direction.Right
-        zoneWidth = zoneOne.width * 2
-        zoneHeight = zoneOne.height
-        zoneXoffset = zoneOne.xOffset
-        zoneYoffset = zoneOne.yOffset
+        zoneXfrom = zoneOne.xOffset
+        zoneXto = zoneOne.xOffset + zoneOne.width + zoneTwo.width
+        zoneYfrom = zoneOne.yOffset
+        zoneYto = zoneOne.yOffset + zoneOne.height
       end
 
       if direction == Direction.Left
-        zoneWidth = zoneOne.width * 2
-        zoneHeight = zoneOne.height
-        zoneXoffset = zoneTwo.xOffset
-        zoneYoffset = zoneOne.yOffset
+        zoneXfrom = zoneTwo.xOffset
+        zoneXto =  zoneTwo.xOffset + zoneOne.width + zoneTwo.width
+        zoneYfrom = zoneOne.yOffset
+        zoneYto = zoneOne.yOffset + zoneOne.height
       end
 
        if direction == Direction.Down
-        zoneWidth = zoneOne.width
-        zoneHeight = zoneOne.height * 2
-        zoneXoffset = zoneOne.xOffset
-        zoneYoffset = zoneOne.yOffset
+        zoneXfrom = zoneOne.xOffset
+        zoneXto = zoneOne.xOffset + zoneOne.width
+        zoneYfrom = zoneOne.yOffset
+        zoneYto = zoneOne.yOffset + zoneTwo.height + zoneOne.height
       end
 
-      return Zone.new(level,zoneXoffset, zoneWidth, zoneYoffset, zoneHeight)
+      return Zone.new(level,zoneXfrom, zoneXto, zoneYfrom, zoneYto)
     end
 
 

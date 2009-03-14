@@ -106,6 +106,18 @@ class ZoneFixture < Test::Unit::TestCase
     assert(newZone.at(2,5).equal?zoneTwo.at(2,5))
   end
 
+  def test_merge_inbetween_returnNewZone
+    level = Level.new(100,100)
+    zoneOne = Zone.new(level,60,80,20,40)
+    zoneTwo = Zone.new(level,60,80,40,60)
+    newZone = Zone.merge(zoneOne,zoneTwo,Direction.Down)
+    assert(newZone.level == zoneOne.level)
+    assert(newZone.width == 20)
+    assert(newZone.height == 40)
+    assert(newZone.at(4,18).equal?zoneOne.at(4,18))
+    assert(newZone.at(12,33).equal?zoneTwo.at(12,13))
+  end
+
   def test_merge_left_returnNewZone
     level = Level.new(100,100)
     zoneOne = Zone.new(level,20,40,0,20)
