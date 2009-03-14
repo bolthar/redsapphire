@@ -3,9 +3,7 @@
 
 include LevelBuilder
 
-class LevelBuilderFixture < Test::Unit::TestCase
+class ArchitectFixture < Test::Unit::TestCase
 
  
-
-
 end

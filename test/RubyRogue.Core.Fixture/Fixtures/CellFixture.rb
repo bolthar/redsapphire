@@ -1,5 +1,4 @@
 
-
 include Core
 
 class CellFixture < Test::Unit::TestCase

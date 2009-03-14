@@ -1,8 +1,6 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
-
-
 include Core::Elements
 
 class DoorFixture < Test::Unit::TestCase
