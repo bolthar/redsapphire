@@ -21,20 +21,19 @@ module LevelBuilder
       zones.each do |column|
         column.each do |singleZone|
           while(!singleZone.center)
-            x = rand(singleZone.width)
-            y = rand(singleZone.height)
-            width = rand(singleZone.width - x)
-            height = rand(singleZone.height - y)
+            width = rand(singleZone.width - 1)
+            height = rand(singleZone.height - 1)
+            x = rand(singleZone.width - width - 1) + 1
+            y = rand(singleZone.height - height- 1) + 1
             @roomDigger.buildFeature!(singleZone,x,y,width,height)
           end
         end          
       end
-      zones[0][0].connect #connect first zone
-      p "start"
-      while(!allZonesConnected?(zones))
-        "connect"
+      zones[0][0].connect #connect first zone      
+      while(!allZonesConnected?(zones))       
         connectRandomZone(zones)
       end
+      return @level
     end
 
     private
@@ -49,26 +48,25 @@ module LevelBuilder
       return true
     end
 
+
+
     def connectRandomZone(zones)
       x = rand(zones.length)
       y = rand(zones[x].length)
       connected = false      
-      while(!connected)
-        while(!zones[x][y].connected?)         
-         x = rand(zones.length)
-         y = rand(zones[x].length)
-         
-        end
-        direction = Direction.randomCardinal       
-        xTarget = x + direction.x
-        yTarget = y + direction.y
-        if(xTarget > -1 && yTarget > -1)
-          if(!zones[xTarget][yTarget].connected?)
-             p "source: #{x},#{y}"
-             p "target: #{xTarget},#{yTarget}"
-             @connector.connect!(zones[x][y],zones[xTarget][yTarget],direction)
-             connected = true
-          end
+      while(!connected)           
+        x = rand(zones.length)
+        y = rand(zones[x].length)
+        if(zones[x][y].connected?)
+         direction = Direction.randomCardinal
+         xTarget = x + direction.x
+         yTarget = y + direction.y
+         if(xTarget > -1 && yTarget > -1 && xTarget < zones.length && yTarget < zones[x].length)           
+            if(!zones[xTarget][yTarget].connected?)               
+               @connector.connect!(zones[x][y],zones[xTarget][yTarget],direction)
+               connected = true
+            end
+         end
         end
       end
     end

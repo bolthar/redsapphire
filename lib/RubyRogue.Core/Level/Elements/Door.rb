@@ -18,11 +18,19 @@ module Core::Elements
     
   end
 
+  class DoorSecret
+    def fill?
+      return true
+    end
+  end
+
 
   class Door
 
       def initialize
-        @state = DoorClosed.new
+        value = rand(8)
+        @state = DoorClosed.new if value < 7
+        @state = DoorSecret.new if value == 7
       end
 
       def fill?
@@ -36,6 +44,7 @@ module Core::Elements
       def close
         @state = DoorClosed.new
       end
+      
 
   end
 

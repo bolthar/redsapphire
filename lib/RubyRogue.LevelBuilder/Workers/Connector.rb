@@ -31,19 +31,23 @@ module LevelBuilder
         firstPiece = 1 + rand(longSide)
         secondPiece = shortSide.abs
         thirdPiece = longSide - firstPiece
-        p firstPiece
-        p secondPiece
-        p thirdPiece
-        p direction
-        p startPoint
-        p endPoint
+        @doorPut = 0 #ugh! :-S
         startPoint = digCorridor!(tempZone, startPoint, direction, firstPiece)
-        if shortSide > 0
-          startPoint = digCorridor!(tempZone, startPoint, direction.cardinalRight,secondPiece.abs)
-        end
-        if shortSide < 0
-          startPoint = digCorridor!(tempZone, startPoint, direction.cardinalLeft, secondPiece.abs)
-        end
+        if direction == Direction.Up || direction == Direction.Right
+          if shortSide > 0
+           startPoint = digCorridor!(tempZone, startPoint, direction.cardinalRight,secondPiece.abs)
+          end
+          if shortSide < 0
+           startPoint = digCorridor!(tempZone, startPoint, direction.cardinalLeft, secondPiece.abs)
+          end
+        else
+          if shortSide > 0
+           startPoint = digCorridor!(tempZone, startPoint, direction.cardinalLeft,secondPiece.abs)
+          end
+          if shortSide < 0
+           startPoint = digCorridor!(tempZone, startPoint, direction.cardinalRight, secondPiece.abs)
+          end
+        end        
         startPoint = digCorridor!(tempZone, startPoint, direction, thirdPiece)
         toConnect.connect
       end
@@ -51,18 +55,21 @@ module LevelBuilder
       private
       def digCorridor!(zone, startPoint, direction, length)
         length.times do           
-          startPoint = startPoint.move!(direction)
+          startPoint = startPoint.move!(direction)          
           if(@inFirstRoom)
             if(zone.at(startPoint).count != 0)
               @inFirstRoom = false
               zone.at(startPoint).clear
               zone.at(startPoint) << Door.new
+              @doorPut = 1
             else
               zone.at(startPoint).clear
             end
           else
-            if(zone.at(startPoint).count == 0)
+            if(zone.at(startPoint).count == 0 && @doorPut < 2)
               zone.at(startPoint.move!(direction.opposite)) << Door.new #turn back and add door
+              @doorPut = 2
+              break
             end
             zone.at(startPoint).clear
           end         
