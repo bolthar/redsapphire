@@ -66,18 +66,8 @@ module LevelBuilder
 
       def getGoodLocation(zone, target, direction)
         p "enter"
-        #get empty cells 
-        emptyCells = target.getCells { |cell| cell.count == 0 }
-        goodCells = emptyCells.getCells do |cell|
-          count = 0
-          surroundings = emptyCells.getCells do |otherCell|
-            target.getPosition(otherCell).isAdjacent?target.getPosition(cell)
-          end
-          surroundings.each do |surrCell|
-            count += surrCell.count
-          end          
-          count == 0
-        end
+        #get empty cells         
+        goodCells = target.getCells { |cell| cell.count == 0 }
         p "got cells"
         targetCell = goodCells[rand(goodCells.count)]
         targetPosition = zone.getPosition(targetCell)
