@@ -21,8 +21,8 @@ module LevelBuilder
       zones.each do |column|
         column.each do |singleZone|
           while(!singleZone.center)
-            width = rand(singleZone.width - 1)
-            height = rand(singleZone.height - 1)
+            width = rand(singleZone.width - 4) + 3
+            height = rand(singleZone.height - 4) + 3
             x = rand(singleZone.width - width - 1) + 1
             y = rand(singleZone.height - height- 1) + 1
             @roomDigger.buildFeature!(singleZone,x,y,width,height)
@@ -30,7 +30,7 @@ module LevelBuilder
         end          
       end
       zones[0][0].connect #connect first zone      
-      while(!allZonesConnected?(zones))       
+      while(!allZonesConnected?(zones))
         connectRandomZone(zones)
       end
       return @level
@@ -47,8 +47,6 @@ module LevelBuilder
       "exit method"
       return true
     end
-
-
 
     def connectRandomZone(zones)
       x = rand(zones.length)

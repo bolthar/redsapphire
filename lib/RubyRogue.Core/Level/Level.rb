@@ -1,5 +1,4 @@
 
-
 module Core
   class Level
     include Accessible

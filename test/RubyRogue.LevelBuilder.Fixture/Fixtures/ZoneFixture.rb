@@ -130,4 +130,43 @@ class ZoneFixture < Test::Unit::TestCase
     assert(newZone.at(6,2).equal?zoneTwo.at(6,2))
   end
 
+  def test_hasCell_cellIsNotIntoZone_returnFalse
+    level = Level.new(100,100)
+    zone = Zone.new(level,20,40,0,20)
+    cell = Cell.new
+    assert(!zone.hasCell?(cell))
+  end
+
+  def test_hasCell_cellIsIntoZone_returnFalse
+    level = Level.new(100,100)
+    zone = Zone.new(level,20,40,0,20)
+    cell = zone.at(4,5)
+    assert(zone.hasCell?(cell))
+  end
+
+  def test_getPosition_cellNotInZone_returnFalse
+    level = Level.new(100,100)
+    zone = Zone.new(level,20,40,0,20)
+    cell = Cell.new
+    assert(!zone.getPosition(cell))
+  end
+
+  def test_getPosition_cellInZone_returnCorrectPosition
+    level = Level.new(100,100)
+    zone = Zone.new(level,20,40,0,20)
+    cell = zone.at(12,3)
+    assert(zone.getPosition(cell) == Position.new(12,3))
+  end
+
+  def test_getCells_emptyCondition_returnsOnlyEmptyCells
+    level = Level.new(100,100)
+    zone = Zone.new(level,20,40,0,20)
+    zone.at(1,3) << Wall.new
+    zone.at(4,1) << Wall.new
+    cells = zone.getCells { |cell| cell.count == 0}    
+    assert(cells.count == 398)
+  end
+
+
+
 end

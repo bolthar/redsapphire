@@ -4,7 +4,8 @@
 
 module Core
 class Cell < Array
-  
+
+
 
   def <<(item)
     raise "Item added must respond to method 'fill?'" unless item.respond_to? :fill?
@@ -14,6 +15,10 @@ class Cell < Array
       }
     super(item)
     return true
+  end
+  
+  def position
+    return Position.new(x,y)
   end
 
 end

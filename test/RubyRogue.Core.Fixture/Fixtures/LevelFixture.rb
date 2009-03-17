@@ -17,18 +17,14 @@ class LevelFixture < Test::Unit::TestCase
     assert(level.respond_to? :at)
   end
 
-  def test_at_WidthoutOfBounds_Raise
+  def test_at_WidthoutOfBounds_returnNil
     level = Level.new(100,200)
-    assert_raise RuntimeError do
-      level.at(100,100) #goes from 0 to 99
-    end
+    assert(!level.at(100,100)) # goes from 0 to 99
   end
 
   def test_at_HeightOutOfBounds_Raise
     level = Level.new(200,100)
-    assert_raise RuntimeError do
-      level.at(100,100) #goes from 0 to 99
-    end
+    assert(!level.at(100,100)) #goes from 0 to 99
   end
 
   def test_ctor_generateCellsForEachLocation

@@ -79,6 +79,19 @@ module LevelBuilder
       return Zone.new(level,zoneXfrom, zoneXto, zoneYfrom, zoneYto)
     end
 
+    def hasCell? (cell)
+      for x in 0...width
+        for y in 0...height
+          return true if cell.equal?self.at(x,y)
+        end
+      end
+      return false
+    end
+
+
+
+
+
 
 
   end

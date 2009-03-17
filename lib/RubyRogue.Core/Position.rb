@@ -28,8 +28,16 @@ module Core
       return target.y - self.y
     end
 
-    def move!(direction)
-      return Position.new(self.x + direction.x,self.y + direction.y)
+    def move(direction)
+      if self.x + direction.x >= 0 && self.y + direction.y >= 0
+        return Position.new(self.x + direction.x,self.y + direction.y)
+      end
+    end
+
+    def isAdjacent? (target)
+      relativeX = (target.x - self.x).abs
+      relativeY = (target.y - self.y).abs
+      return relativeX < 2 && relativeY < 2 && (relativeX + relativeY != 0)
     end
 
   end

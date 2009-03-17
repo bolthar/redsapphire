@@ -2,7 +2,39 @@
 # and open the template in the editor.
 
 module Core
+  module Queryable
+
+    def getCells()
+      raise "no block passed" unless block_given?
+
+      resultCells = QueryResult.new
+      self.each do |element|        
+          resultCells << element if yield(element)
+        end
+      return resultCells
+      end
+
+
+  end
+
+  class QueryResult < Array
+    include Queryable
+
+  end
+
+
   module Accessible
+    include Queryable
+    include Enumerable
+
+    def each
+      for x in 0...width
+        for y in 0...height
+          yield @cells[x][y]
+        end
+      end
+
+    end
 
     def height
       return @height
@@ -18,10 +50,24 @@ module Core
       else
         position = args[0]
       end
-      raise "width is out of bounds (#{position.x})" unless position.x < width
-      raise "height is out of bounds (#{position.y})" unless position.y < height
+      return nil unless position
+      return nil unless position.x < width
+      return nil unless position.y < height
       return @cells[position.x][position.y]
     end
+
+
+
+    def getPosition(cell)
+      for x in 0...width
+        for y in 0...height
+          return Position.new(x,y) if self.at(x,y).equal?(cell)
+        end
+      end
+      return nil
+    end
+
+    
     
   end
 end

@@ -8,16 +8,12 @@ module LevelBuilder
 
       def connect!(alreadyConnected,toConnect,direction)        
         tempZone = Zone.merge(alreadyConnected,toConnect,direction)
-        @inFirstRoom = true
-        startPoint = nil
-        endPoint = nil
-        for x in 0...tempZone.width
-          for y in 0...tempZone.height
-            startPoint = Position.new(x,y) if tempZone.at(x,y).equal?alreadyConnected.at(alreadyConnected.center)
-            endPoint = Position.new(x,y) if tempZone.at(x,y).equal?toConnect.at(toConnect.center)
-            break if startPoint && endPoint
-          end
-        end
+        #get start and end point
+        startPoint = getGoodLocation(tempZone,alreadyConnected,direction)
+        endPoint = getGoodLocation(tempZone,toConnect,direction.opposite)
+        #p "direction #{direction.x},#{direction.y}"
+        #p "start point #{startPoint.x}, #{startPoint.y}"
+        #p "end point #{endPoint.x}, #{endPoint.y}"
         #determine curve point
         longSide = nil
         shortSide = nil
@@ -31,53 +27,66 @@ module LevelBuilder
         firstPiece = 1 + rand(longSide)
         secondPiece = shortSide.abs
         thirdPiece = longSide - firstPiece
-        @doorPut = 0 #ugh! :-S
-        startPoint = digCorridor!(tempZone, startPoint, direction, firstPiece)
+        currentPoint = digCorridor!(tempZone, startPoint, direction, firstPiece)
         if direction == Direction.Up || direction == Direction.Right
           if shortSide > 0
-           startPoint = digCorridor!(tempZone, startPoint, direction.cardinalRight,secondPiece.abs)
+           currentPoint = digCorridor!(tempZone, currentPoint, direction.cardinalRight,secondPiece.abs)
           end
           if shortSide < 0
-           startPoint = digCorridor!(tempZone, startPoint, direction.cardinalLeft, secondPiece.abs)
+           currentPoint = digCorridor!(tempZone, currentPoint, direction.cardinalLeft, secondPiece.abs)
           end
         else
           if shortSide > 0
-           startPoint = digCorridor!(tempZone, startPoint, direction.cardinalLeft,secondPiece.abs)
+           currentPoint = digCorridor!(tempZone, currentPoint, direction.cardinalLeft,secondPiece.abs)
           end
           if shortSide < 0
-           startPoint = digCorridor!(tempZone, startPoint, direction.cardinalRight, secondPiece.abs)
+           currentPoint = digCorridor!(tempZone, currentPoint, direction.cardinalRight, secondPiece.abs)
           end
         end        
-        startPoint = digCorridor!(tempZone, startPoint, direction, thirdPiece)
-        toConnect.connect
+        digCorridor!(tempZone, currentPoint, direction, thirdPiece)
+        putDoor!(tempZone,startPoint)
+        putDoor!(tempZone,endPoint)
+        toConnect.connect  
       end
 
       private
       def digCorridor!(zone, startPoint, direction, length)
-        length.times do           
-          startPoint = startPoint.move!(direction)          
-          if(@inFirstRoom)
-            if(zone.at(startPoint).count != 0)
-              @inFirstRoom = false
-              zone.at(startPoint).clear
-              zone.at(startPoint) << Door.new
-              @doorPut = 1
-            else
-              zone.at(startPoint).clear
-            end
-          else
-            if(zone.at(startPoint).count == 0 && @doorPut < 2)
-              zone.at(startPoint.move!(direction.opposite)) << Door.new #turn back and add door
-              @doorPut = 2
-              break
-            end
-            zone.at(startPoint).clear
-          end         
-        end        
+        length.times do
+          #p startPoint
+          startPoint = startPoint.move(direction)         
+          zone.at(startPoint).clear
+          end
         return startPoint
       end
 
-    end
+      def putDoor!(zone,point)
+        zone.at(point.x,point.y).clear
+        zone.at(point.x,point.y) << Door.new
+      end
 
+      def getGoodLocation(zone, target, direction)
+        p "enter"
+        #get empty cells 
+        emptyCells = target.getCells { |cell| cell.count == 0 }
+        goodCells = emptyCells.getCells do |cell|
+          count = 0
+          surroundings = emptyCells.getCells do |otherCell|
+            target.getPosition(otherCell).isAdjacent?target.getPosition(cell)
+          end
+          surroundings.each do |surrCell|
+            count += surrCell.count
+          end          
+          count == 0
+        end
+        p "got cells"
+        targetCell = goodCells[rand(goodCells.count)]
+        targetPosition = zone.getPosition(targetCell)
+        while(zone.at(targetPosition).count == 0)
+          targetPosition = targetPosition.move(direction)
+        end
+        p targetPosition
+        return targetPosition
+      end
+    end
   end
 end

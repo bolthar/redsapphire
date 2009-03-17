@@ -42,7 +42,7 @@ class PositionFixture < Test::Unit::TestCase
 
   def test_move_okay_returnNewPosition
     position = Position.new(10,10)   
-    assert_equal(position.move!(Direction.Up),Position.new(10,9))
+    assert_equal(position.move(Direction.Up),Position.new(10,9))
   end
 
   def test_xOffset_returnCorrectValue
@@ -57,6 +57,18 @@ class PositionFixture < Test::Unit::TestCase
     pos2 = Position.new(12,4)
     assert(pos1.yOffset(pos2) == -6)
     assert(pos2.yOffset(pos1) == 6)
+  end
+
+  def test_isAdjacent_notAdjacent_returnFalse
+    pos1 = Position.new(5,10)
+    pos2 = Position.new(12,4)
+    assert(!pos1.isAdjacent?(pos2))
+  end
+
+  def test_isAdjacent_Adjacent_returnTrue
+    pos1 = Position.new(5,6)
+    pos2 = Position.new(6,7)
+    assert(pos1.isAdjacent?(pos2))
   end
 
 

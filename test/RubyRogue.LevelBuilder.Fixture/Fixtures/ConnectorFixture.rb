@@ -9,6 +9,8 @@ class ConnectorFixture < Test::Unit::TestCase
   def test_atleastDoNotRaiseForGodsSake
     connector = Connector.new
     level = Level.new(100,100)
+    levelFiller = LevelFiller.new
+    levelFiller.fillLevel!(level)
     zoneOne = Zone.new(level, 0,20,0,20)
     zoneTwo = Zone.new(level, 0,20,1,20)
     zone = Zone.merge(zoneOne,zoneTwo, Direction.Down)

@@ -12,7 +12,7 @@ class ArchitectFixture < Test::Unit::TestCase
      r.register(:roomDigger) { RoomDigger.new }
      r.register(:connector) { Connector.new }
    end
-   architect = Architect.new(100,100,registry)
+   architect = Architect.new(50,50,registry)
    level = architect.build
 
  end
