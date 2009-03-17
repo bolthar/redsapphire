@@ -27,6 +27,10 @@ module LevelBuilder
         firstPiece = 1 + rand(longSide)
         secondPiece = shortSide.abs
         thirdPiece = longSide - firstPiece
+        if thirdPiece == 0
+          firstPiece -= 1
+          thirdPiece += 1
+        end
         currentPoint = digCorridor!(tempZone, startPoint, direction, firstPiece)
         if direction == Direction.Up || direction == Direction.Right
           if shortSide > 0
@@ -43,7 +47,7 @@ module LevelBuilder
            currentPoint = digCorridor!(tempZone, currentPoint, direction.cardinalRight, secondPiece.abs)
           end
         end        
-        digCorridor!(tempZone, currentPoint, direction, thirdPiece)
+        digCorridor!(tempZone, currentPoint, direction, thirdPiece) if thirdPiece != 0
         putDoor!(tempZone,startPoint)
         putDoor!(tempZone,endPoint)
         toConnect.connect  
@@ -51,8 +55,7 @@ module LevelBuilder
 
       private
       def digCorridor!(zone, startPoint, direction, length)
-        length.times do
-          #p startPoint
+        length.times do          
           startPoint = startPoint.move(direction)         
           zone.at(startPoint).clear
           end
@@ -65,16 +68,14 @@ module LevelBuilder
       end
 
       def getGoodLocation(zone, target, direction)
-        p "enter"
+       
         #get empty cells         
-        goodCells = target.getCells { |cell| cell.count == 0 }
-        p "got cells"
+        goodCells = target.getCells { |cell| cell.count == 0 }        
         targetCell = goodCells[rand(goodCells.count)]
         targetPosition = zone.getPosition(targetCell)
         while(zone.at(targetPosition).count == 0)
           targetPosition = targetPosition.move(direction)
-        end
-        p targetPosition
+        end        
         return targetPosition
       end
     end
