@@ -11,3 +11,4 @@ require 'test/TestHeaders.rb'
 
 require 'test/RubyRogue.Core.Fixture/RubyRogue.Core.rb'
 require 'test/RubyRogue.LevelBuilder.Fixture/RubyRogue.LevelBuilder.rb'
+require 'test/RubyRogue.RogueCurses.Fixture/RubyRogue.RogueCurses.rb'

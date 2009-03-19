@@ -5,7 +5,6 @@ require 'needle'
 class Headers
   def Headers.includeRequirements
     baseDir = Dir.pwd
-    doIncludeDirectory(baseDir + "/RubyRogue.Infrastructure")
     doIncludeDirectory(baseDir + "/RubyRogue.Core")
     doIncludeDirectory(baseDir + "/RubyRogue.RogueCurses")
     doIncludeDirectory(baseDir + "/RubyRogue.LevelBuilder")
