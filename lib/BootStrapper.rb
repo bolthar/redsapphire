@@ -1,10 +1,10 @@
 
 require 'Headers.rb'
 
-
 include LevelBuilder
 include LevelBuilder::Workers
 include Core::Elements
+include SDLWrapper
 
 registry = Needle::Registry.new do |reg|
   reg.register(:levelFiller) { LevelFiller.new }
@@ -14,19 +14,13 @@ registry = Needle::Registry.new do |reg|
 end
 
 srand(Date.new.hash)
-architect = Architect.new(150,50,registry)
-level =  architect.build()
-
-string = nil
-for y in 0...50
-  string = ""
-  for x in 0...150
-     if level.at(x,y).count == 0
-       string += "."
-     else
-       string += "#" if level.at(x,y)[0].kind_of? Wall
-       string += "+" if level.at(x,y)[0].kind_of? Door
-     end
-  end
-  p string
+adapter = SDLadapter.new
+dumper = SDLdumper.new
+dumper.startup(9,15,100,50)
+5.times do
+architect = Architect.new(100,50,registry)
+level = architect.build()
+dumpedLevel = adapter.convert(level)
+dumper.render(dumpedLevel,9,15)
+sleep(5)
 end

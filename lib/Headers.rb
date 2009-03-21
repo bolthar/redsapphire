@@ -6,7 +6,7 @@ class Headers
   def Headers.includeRequirements
     baseDir = Dir.pwd
     doIncludeDirectory(baseDir + "/RubyRogue.Core")
-    doIncludeDirectory(baseDir + "/RubyRogue.RogueCurses")
+    doIncludeDirectory(baseDir + "/RubyRogue.RogueSDL")
     doIncludeDirectory(baseDir + "/RubyRogue.LevelBuilder")
   end
 
