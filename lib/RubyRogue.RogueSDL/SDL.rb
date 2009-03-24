@@ -52,6 +52,7 @@ class SDLadapter
     @surfaces[:emptyCell] = getCharSurface(10,2, Color.new(1,1,1))
     @surfaces[Wall] = getCharSurface(22,2,Color.new(0.4,0.1,0))
     @surfaces[Door] = getCharSurface(11,2,Color.new(0.5,0.1,0))
+    @surfaces[:invisible] = getCharSurface(22,2,Color.new(0,0,0))
   end
   
   def getCharSurface(x,y,paintColor)
@@ -72,15 +73,19 @@ class SDLadapter
     for x in 0...level.width
       result[x] = []
       for y in 0...level.height
+       if level.at(x,y).onSight?
         if level.at(x,y).count == 0
           result[x][y] = @surfaces[:emptyCell]
         else
           result[x][y] = @surfaces[ level.at(x,y)[0].class]
         end
+       else
+         result[x][y] = @surfaces[:invisible]
       end
-    end
-    return result
+    end    
   end
+  return result
+end
 end
 
 class SDLdumper
@@ -99,8 +104,5 @@ class SDLdumper
     end
     screen.update_rect(0,0,0,0)
   end
-
- 
-
 end
 end

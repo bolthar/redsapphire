@@ -2,6 +2,8 @@
 module Core
   class Level
     include Accessible
+    include LOS
+    include FOV
 
     def initialize(width, height)
       @height = height
@@ -13,9 +15,15 @@ module Core
           @cells[x][y] = Cell.new
         end
       end
-
     end
 
+    def light(x,y)
+      self.at(x,y).light
+    end
+
+    def blocked?(x,y)
+      return self.at(x,y).blocked?
+    end
     
 
   end

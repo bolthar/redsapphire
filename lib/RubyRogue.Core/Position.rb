@@ -3,8 +3,7 @@
 
 module Core
 
-  class Position
-    
+  class Position    
 
     attr_accessor :x, :y
    
