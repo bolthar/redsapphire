@@ -64,7 +64,7 @@ module LevelBuilder
 
       def putDoor!(zone,point)
         zone.at(point.x,point.y).clear
-        zone.at(point.x,point.y) << Door.new
+        zone.at(point.x,point.y) << Door.new  if doorHereIsOkay(zone,point)
       end
 
       def getGoodLocation(zone, target, direction)
@@ -78,6 +78,26 @@ module LevelBuilder
         end        
         return targetPosition
       end
+
+      def doorHereIsOkay(zone,point)
+        #start at right
+        direction = Direction.Right
+        count = 0
+        4.times do
+          3.times do
+            cell = zone.at(point.move(direction))
+            if cell && cell.count == 0
+             count += 1
+            end
+            direction = direction.right
+          end
+          direction = direction.left
+          return false if count == 3
+          count = 0
+        end
+        return true
+      end
+
     end
   end
 end

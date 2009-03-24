@@ -20,7 +20,6 @@ dumper.startup(9,15,100,50)
 5.times do
 architect = Architect.new(100,50,registry)
 level = architect.build()
-level.do_fov(51,20,8)
 dumpedLevel = adapter.convert(level)
 dumper.render(dumpedLevel,9,15)
 sleep(5)

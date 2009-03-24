@@ -73,7 +73,7 @@ class SDLadapter
     for x in 0...level.width
       result[x] = []
       for y in 0...level.height
-       if level.at(x,y).onSight?
+       if !level.at(x,y).onSight?
         if level.at(x,y).count == 0
           result[x][y] = @surfaces[:emptyCell]
         else
