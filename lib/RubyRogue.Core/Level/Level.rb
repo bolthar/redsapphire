@@ -12,7 +12,7 @@ module Core
       for x in 0...width
         @cells[x] = []
         for y in 0...height
-          @cells[x][y] = Cell.new
+          @cells[x][y] = Cell.new(self,x,y)
         end
       end
     end

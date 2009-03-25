@@ -4,22 +4,22 @@ include Core
 class CellFixture < Test::Unit::TestCase
 
   def test_shouldrespond_toeach
-    cell = Cell.new
-    assert(cell.respond_to? :each)
+    cell = Cell.new(nil,0,0)
+    assert(cell .respond_to? :each)
   end
 
   def test_shouldrespond_tocomparer
-    cell = Cell.new
+    cell = Cell.new(nil,0,0)
     assert(cell.respond_to? :<=>)
   end
 
   def test_shouldrespond_toaddoperator
-    cell = Cell.new
+    cell = Cell.new(nil,0,0)
     assert(cell.respond_to? :<<)
   end
 
   def test_addOperator_RespondToRules_AddToElements
-    cell = Cell.new
+    cell = Cell.new(nil,0,0)
     object = Object.new
     object.stubs(:fill?).returns(false)
     result = cell << object
@@ -28,7 +28,7 @@ class CellFixture < Test::Unit::TestCase
   end
 
   def test_each_Always_CycleAllItemsInElements
-    cell = Cell.new
+    cell = Cell.new(nil,0,0)
     stringone = "1";
     stringtwo = "2";
     stringthree = "3";
@@ -45,7 +45,7 @@ class CellFixture < Test::Unit::TestCase
 
 
   def test_addOperator_itemAddedNotRespondToFill_raise
-    cell = Cell.new
+    cell = Cell.new(nil,0,0)
     assert_raise RuntimeError do
       cell << Object.new
     end
@@ -53,7 +53,7 @@ class CellFixture < Test::Unit::TestCase
   end
 
    def test_addOperator_rulesCheckreturnFalse_returnFalse
-     cell = Cell.new    
+     cell = Cell.new(nil,0,0)
      itemOne = stub(:fill? => true)
      itemTwo = stub(:fill? => false)
      cell << itemOne

@@ -133,7 +133,7 @@ class ZoneFixture < Test::Unit::TestCase
   def test_hasCell_cellIsNotIntoZone_returnFalse
     level = Level.new(100,100)
     zone = Zone.new(level,20,40,0,20)
-    cell = Cell.new
+    cell = Cell.new(level,1,1)
     assert(!zone.hasCell?(cell))
   end
 
@@ -142,20 +142,6 @@ class ZoneFixture < Test::Unit::TestCase
     zone = Zone.new(level,20,40,0,20)
     cell = zone.at(4,5)
     assert(zone.hasCell?(cell))
-  end
-
-  def test_getPosition_cellNotInZone_returnFalse
-    level = Level.new(100,100)
-    zone = Zone.new(level,20,40,0,20)
-    cell = Cell.new
-    assert(!zone.getPosition(cell))
-  end
-
-  def test_getPosition_cellInZone_returnCorrectPosition
-    level = Level.new(100,100)
-    zone = Zone.new(level,20,40,0,20)
-    cell = zone.at(12,3)
-    assert(zone.getPosition(cell) == Position.new(12,3))
   end
 
   def test_getCells_emptyCondition_returnsOnlyEmptyCells

@@ -4,21 +4,14 @@
 module Core
   class Mediator
 
-    def initialize
-      registry = Needle::Registry.new do |reg|
-        reg.register(:levelFiller) { LevelFiller.new }
-        reg.register(:splitter) { Splitter.new }
-        reg.register(:roomDigger) { RoomDigger.new }
-        reg.register(:connector) { Connector.new }
-      end
-      @eventHandler = SDLeventHandler.new
-      @adapter = SDLadapter.new
-      @dumper = SDLdumper.new
-      @architect = Architect.new(50,25,registry)
+    def initialize(registry)
+      @eventHandler = registry.eventHandler
+      @adapter = registry.adapter
+      @dumper = registry.dumper
+      @architect = registry.architect
     end
     
     def start
-      @dumper.startup(9,15,50,25)
       @level = @architect.build()
       @player = Player.new
       emptyCells = @level.getCells { |cell| cell.count == 0}
@@ -43,7 +36,7 @@ module Core
 
     def render
       playerCell = @level.getCells { |cell| cell[0] == @player}[0]
-      position = @level.getPosition(playerCell)
+      position = playerCell.position
       @level.do_fov(position.x,position.y,6)
       dumpedLevel = @adapter.convert(@level)
       @dumper.render(dumpedLevel,9,15)
@@ -52,7 +45,7 @@ module Core
     def move(direction)
       #get player position
       playerCell = @level.getCells { |cell| cell[0] == @player}[0]
-      position = @level.getPosition(playerCell)
+      position = playerCell.position
       #get new position
       newPosition = position.move(direction)
       #try to put in new cell

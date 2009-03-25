@@ -5,6 +5,18 @@
 module Core
 class Cell < Array
 
+  def initialize(level,x,y)
+    @level = level
+    @x = x
+    @y = y
+  end
+
+  def position
+    return Position.new(@x,@y)
+  end
+
+  attr_reader :level
+
   def <<(item)
     raise "Item added must respond to method 'fill?'" unless item.respond_to? :fill?
     

@@ -58,14 +58,7 @@ module Core
 
 
 
-    def getPosition(cell)
-      for x in 0...width
-        for y in 0...height
-          return Position.new(x,y) if self.at(x,y).equal?(cell)
-        end
-      end
-      return nil
-    end
+    
 
     
     
