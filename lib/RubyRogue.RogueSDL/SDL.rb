@@ -53,6 +53,7 @@ class SDLadapter
     @surfaces[Wall] = getCharSurface(22,2,Color.new(0.4,0.1,0))
     @surfaces[Door] = getCharSurface(11,2,Color.new(0.5,0.1,0))
     @surfaces[:invisible] = getCharSurface(22,2,Color.new(0,0,0))
+    @surfaces[Player] = getCharSurface(23,2,Color.new(1,1,1))
   end
   
   def getCharSurface(x,y,paintColor)
@@ -104,5 +105,40 @@ class SDLdumper
     end
     screen.update_rect(0,0,0,0)
   end
+end
+
+class SDLeventHandler
+
+  def initialize()
+    @keyMap = {}
+    @keyMap[SDL::Key::KP8] = {:method => :move, :parameters => Direction.Up}
+    @keyMap[SDL::Key::KP9] = {:method => :move, :parameters => Direction.UpRight}
+    @keyMap[SDL::Key::KP6] = {:method => :move, :parameters => Direction.Right}
+    @keyMap[SDL::Key::KP3] = {:method => :move, :parameters => Direction.DownRight}
+    @keyMap[SDL::Key::KP2] = {:method => :move, :parameters => Direction.Down}
+    @keyMap[SDL::Key::KP1] = {:method => :move, :parameters => Direction.DownLeft}
+    @keyMap[SDL::Key::KP4] = {:method => :move, :parameters => Direction.Left}
+    @keyMap[SDL::Key::KP7] = {:method => :move, :parameters => Direction.UpLeft}
+    @keyMap[SDL::Key::Q] = {:method => :quit}
+  end
+
+
+  def getInput
+    event = nil
+    while !event
+      event = Event.wait
+      if event.kind_of? Event::KeyDown
+        return parseEvent(event)
+      end
+      event = nil
+    end
+  end
+
+  private
+  def parseEvent(event)
+    result = @keyMap[event.sym]
+    return result
+  end
+
 end
 end

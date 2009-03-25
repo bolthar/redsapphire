@@ -16,6 +16,7 @@ module Core
     # start_x, start_y: center of view
     # radius: how far field of view extends
     def do_fov(start_x, start_y, radius)
+        self.each { |cell| cell.lightsOff}
         light start_x, start_y
         8.times do |oct|
             cast_light start_x, start_y, 1, 1.0, 0.0, radius,

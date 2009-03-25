@@ -17,6 +17,10 @@ class Cell < Array
     @onSight = true
   end
 
+  def lightsOff
+    @onSight = false
+  end
+
   def onSight?
     return @onSight
   end
