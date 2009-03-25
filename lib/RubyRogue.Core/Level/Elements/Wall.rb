@@ -1,13 +1,14 @@
 
 
-module Core::Elements
+module Core
+  module Elements
   
-  class Wall
+  class Wall < Element
 
     def fill?
       return true
     end
     
   end
-
+  end
 end

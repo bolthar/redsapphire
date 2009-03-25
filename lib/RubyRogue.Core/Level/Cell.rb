@@ -20,9 +20,16 @@ class Cell < Array
   def <<(item)
     raise "Item added must respond to method 'fill?'" unless item.respond_to? :fill?
     
-    return false if self.blocked?
-    super(item)
-    return true
+    if self.blocked?    
+      self.each do |element|
+        element.itemCollided(item)
+      end
+      return false
+    else
+      super(item)
+      return true
+    end
+    
   end
 
   def light

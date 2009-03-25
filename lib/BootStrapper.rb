@@ -7,8 +7,8 @@ include Core
 include Core::Elements
 include SDLWrapper
 
-x = 100
-y = 50
+x = 50
+y = 25
 w = 9
 h = 15
 
@@ -18,9 +18,9 @@ registry = Needle::Registry.new do |reg|
     reg.register(:roomDigger) { RoomDigger.new }
     reg.register(:connector) { Connector.new }
     reg.register(:architect) { Architect.new(x,y,registry) }
-    reg.registry(:eventHandler) { SDLeventHandler.new }
-    reg.registry(:adapter) { SDLadapter.new }
-    reg.registry(:dumper) do
+    reg.register(:eventHandler) { SDLeventHandler.new }
+    reg.register(:adapter) { SDLadapter.new }
+    reg.register(:dumper) do
       dumper = SDLdumper.new
       dumper.startup(w,h,x,y)
       dumper

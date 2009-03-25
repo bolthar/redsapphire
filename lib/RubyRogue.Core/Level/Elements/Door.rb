@@ -3,30 +3,26 @@
 module Core::Elements
   
   class DoorClosed
-    
-    def fill?
-      return true      
-    end    
-    
-  end
-  
-  class DoorOpened
-    
-    def fill? 
-      return false
+      def fill?
+        return true
+      end
     end
-    
-  end
 
-  class DoorSecret
-    def fill?
-      return true
+    class DoorOpen
+      def fill?
+        return false
+      end
     end
-  end
 
+    class DoorSecret
+      def fill?
+        return true
+      end
+    end
 
-  class Door
-
+  class Door < Element
+    
+    
       def initialize
         value = rand(8)
         @state = DoorClosed.new if value < 7
@@ -38,13 +34,21 @@ module Core::Elements
       end
 
       def open
-        @state = DoorOpened.new
+        @state = DoorOpen.new
       end
 
       def close
         @state = DoorClosed.new
       end
-      
+
+      def symbol
+        return @state.class
+      end
+
+      def itemCollided(item)
+        self.open if item.kind_of? Player
+      end
+
 
   end
 

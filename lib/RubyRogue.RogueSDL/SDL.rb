@@ -8,6 +8,7 @@ include SDL
 include Core
 
 
+
 module SDLWrapper
 class Color
 
@@ -51,7 +52,9 @@ class SDLadapter
     @surfaces = {}
     @surfaces[:emptyCell] = getCharSurface(10,2, Color.new(1,1,1))
     @surfaces[Wall] = getCharSurface(22,2,Color.new(0.4,0.1,0))
-    @surfaces[Door] = getCharSurface(11,2,Color.new(0.5,0.1,0))
+    @surfaces[DoorClosed] = getCharSurface(11,2,Color.new(0.5,0.1,0))
+    @surfaces[DoorOpen] = getCharSurface(19,2,Color.new(0.5,0.1,0))
+    @surfaces[DoorSecret] = getCharSurface(22,2,Color.new(0.7,0.1,0))
     @surfaces[:invisible] = getCharSurface(22,2,Color.new(0,0,0))
     @surfaces[Player] = getCharSurface(23,2,Color.new(1,1,1))
   end
@@ -78,7 +81,12 @@ class SDLadapter
         if level.at(x,y).count == 0
           result[x][y] = @surfaces[:emptyCell]
         else
-          result[x][y] = @surfaces[ level.at(x,y)[0].class]
+          if level.at(x,y).count == 2
+             result[x][y] = @surfaces[level.at(x,y)[1].symbol]
+          else
+             result[x][y] = @surfaces[level.at(x,y)[0].symbol]
+          end
+          
         end
        else
          result[x][y] = @surfaces[:invisible]

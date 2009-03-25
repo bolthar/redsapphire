@@ -35,7 +35,7 @@ module Core
     end
 
     def render
-      playerCell = @level.getCells { |cell| cell[0] == @player}[0]
+      playerCell = @level.getCells { |cell| cell.include? @player}[0]
       position = playerCell.position
       @level.do_fov(position.x,position.y,6)
       dumpedLevel = @adapter.convert(@level)
@@ -44,14 +44,15 @@ module Core
 
     def move(direction)
       #get player position
-      playerCell = @level.getCells { |cell| cell[0] == @player}[0]
+      playerCell = @level.getCells { |cell| cell.include? @player}[0]
       position = playerCell.position
       #get new position
       newPosition = position.move(direction)
       #try to put in new cell
       if @level.at(newPosition) << @player
-         #if yes move player
+         #if yes move player        
          playerCell.delete(@player)
+         p @level.at(newPosition)
       end
       #if no do nothing
       return true

@@ -2,7 +2,7 @@
 # and open the template in the editor.
 
 module Core::Elements
-  class Player
+  class Player < Element
 
 
     def fill?
