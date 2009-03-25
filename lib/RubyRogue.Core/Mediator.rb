@@ -14,11 +14,11 @@ module Core
       @eventHandler = SDLeventHandler.new
       @adapter = SDLadapter.new
       @dumper = SDLdumper.new
-      @architect = Architect.new(100,50,registry)
+      @architect = Architect.new(50,25,registry)
     end
     
     def start
-      @dumper.startup(9,15,100,50)
+      @dumper.startup(9,15,50,25)
       @level = @architect.build()
       @player = Player.new
       emptyCells = @level.getCells { |cell| cell.count == 0}
@@ -28,7 +28,7 @@ module Core
       while eventResult
         render()
         event = @eventHandler.getInput
-        eventResult = handleEvent(event)
+        eventResult = handleEvent(event) if event
       end
     end
 
@@ -44,7 +44,7 @@ module Core
     def render
       playerCell = @level.getCells { |cell| cell[0] == @player}[0]
       position = @level.getPosition(playerCell)
-      @level.do_fov(position.x,position.y,8)
+      @level.do_fov(position.x,position.y,6)
       dumpedLevel = @adapter.convert(@level)
       @dumper.render(dumpedLevel,9,15)
     end
