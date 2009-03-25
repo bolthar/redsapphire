@@ -85,8 +85,7 @@ class SDLadapter
              result[x][y] = @surfaces[level.at(x,y)[1].symbol]
           else
              result[x][y] = @surfaces[level.at(x,y)[0].symbol]
-          end
-          
+          end          
         end
        else
          result[x][y] = @surfaces[:invisible]

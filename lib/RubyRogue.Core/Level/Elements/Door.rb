@@ -20,7 +20,7 @@ module Core::Elements
       end
     end
 
-  class Door < Element
+  class Door
     
     
       def initialize
@@ -43,11 +43,7 @@ module Core::Elements
 
       def symbol
         return @state.class
-      end
-
-      def itemCollided(item)
-        self.open if item.kind_of? Player
-      end
+      end   
 
 
   end

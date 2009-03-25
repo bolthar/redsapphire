@@ -21,9 +21,7 @@ class Cell < Array
     raise "Item added must respond to method 'fill?'" unless item.respond_to? :fill?
     
     if self.blocked?    
-      self.each do |element|
-        element.itemCollided(item)
-      end
+      item.collide(self[0]) if item.respond_to? :collide
       return false
     else
       super(item)

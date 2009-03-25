@@ -51,8 +51,7 @@ module Core
       #try to put in new cell
       if @level.at(newPosition) << @player
          #if yes move player        
-         playerCell.delete(@player)
-         p @level.at(newPosition)
+         playerCell.delete(@player)         
       end
       #if no do nothing
       return true

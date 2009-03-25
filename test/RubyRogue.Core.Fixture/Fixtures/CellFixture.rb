@@ -54,8 +54,8 @@ class CellFixture < Test::Unit::TestCase
 
    def test_addOperator_rulesCheckreturnFalse_returnFalse
      cell = Cell.new(nil,0,0)
-     itemOne = stub(:fill? => true, :itemCollided => nil)
-     itemTwo = stub(:fill? => false, :itemCollided => nil)
+     itemOne = stub(:fill? => true)
+     itemTwo = stub(:fill? => false)
      cell << itemOne
      result = cell << itemTwo
      assert(!result)
