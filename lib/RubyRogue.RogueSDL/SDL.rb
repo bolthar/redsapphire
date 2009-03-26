@@ -37,63 +37,140 @@ class Color
     newColor[2] = baseColor[2] * blue
     return newColor
   end
-
 end
-class SDLadapter
+
+class Colors
 
 
-  
-  def initialize
-    @fontPalette = Surface.loadBMP('FontPalette.bmp')
-    
-    @x = 9
-    @y = 15
-    
-    @surfaces = {}
-    @surfaces[:emptyCell] = getCharSurface(10,2, Color.new(1,1,1))
-    @surfaces[Wall] = getCharSurface(22,2,Color.new(0.4,0.1,0))
-    @surfaces[DoorClosed] = getCharSurface(11,2,Color.new(0.5,0.1,0))
-    @surfaces[DoorOpen] = getCharSurface(19,2,Color.new(0.5,0.1,0))
-    @surfaces[DoorSecret] = getCharSurface(22,2,Color.new(0.7,0.1,0))
-    @surfaces[:invisible] = getCharSurface(22,2,Color.new(0,0,0))
-    @surfaces[Player] = getCharSurface(23,2,Color.new(1,1,1))
+  @colors = {}
+
+  def Colors.White 
+    @colors[:white] = Color.new(1,1,1) if !@colors[:white]
+    return @colors[:white]
   end
   
+  def Colors.LightBrown 
+     @colors[:lightBrown] = Color.new(0.7,0.1,0) if !@colors[:lightBrown]
+     return @colors[:lightBrown]
+  end
+  
+  def Colors.DarkBrown 
+     @colors[:darkBrown] = Color.new(0.5,0.1,0) if !@colors[:darkBrown]
+     return @colors[:darkBrown]
+  end
+  
+  def Colors.Black 
+    @colors[:black] = Color.new(0,0,0) if !@colors[:black]
+    return @colors[:black]
+  end
+
+  def Colors.Gray
+    @colors[:grey] = Color.new(0.2,0.2,0.2) if !@colors[:grey]
+    return @colors[:grey]
+  end
+
+
+  
+end
+
+class SpriteCache
+
+  def initialize(w,h)
+    @fontPalette = Surface.loadBMP('FontPalette.bmp')
+
+    @x = w
+    @y = h
+
+    @palettePositions = {}
+    @palettePositions[:emptyCell] = {:x => 10, :y => 2, :defaultColor => Colors.White}
+    @palettePositions[Wall] = {:x => 22, :y => 2, :defaultColor => Colors.DarkBrown}
+    @palettePositions[DoorClosed] = {:x => 11, :y => 2, :defaultColor => Colors.LightBrown}
+    @palettePositions[DoorOpen] = {:x => 19, :y => 2, :defaultColor => Colors.LightBrown}
+    @palettePositions[DoorSecret] = {:x => 22, :y => 2, :defaultColor => Colors.LightBrown}
+    @palettePositions[:invisible] = {:x => 22, :y => 2, :defaultColor => Colors.Black}
+    @palettePositions[Player] = {:x => 23, :y => 2, :defaultColor => Colors.White}
+
+    @cache = {}    
+    @palettePositions.each_pair do |key,value|      
+      @cache[key] = {}
+      @cache[key][value[:defaultColor]] = getCharSurface(value[:x],value[:y],value[:defaultColor])
+    end
+  end
+
   def getCharSurface(x,y,paintColor)
-    charSurface = Surface.new(SDL::HWSURFACE,@x,@y,@fontPalette.format)   
+    charSurface = Surface.new(SDL::HWSURFACE,@x,@y,@fontPalette.format)
     Surface.blit(@fontPalette,@x*x,@y*y,@x,@y,charSurface,0,0)
     for xPixel in 0...@x
       for yPixel in 0...@y
-       color = charSurface.format.getRGB(charSurface[xPixel,yPixel])
+       color = charSurface.format.getRGB(charSurface[xPixel,yPixel])       
        newColor = paintColor.create(color)
        charSurface[xPixel,yPixel] = newColor
       end
     end
     return charSurface
   end
+
+  def getSprite(type,color)
+    if color
+      if !@cache[type][color]
+        palettePosition, = @palettePositions[type]
+        @cache[type][color] = getCharSurface(palettePosition[:x],palettePosition[:y],color)
+      end
+      return @cache[type][color]
+    else
+      return @cache[type][@palettePositions[type][:defaultColor]]
+    end
+  end
+  
+  def getDefaultColor(type)    
+    return @palettePositions[type][:defaultColor]
+  end
+end
+class SDLadapter
+  
+  def initialize(w,h,colunms)
+    
+    @spriteCache = SpriteCache.new(w,h)
+
+    @drawingMap = []
+    for x in 0...colunms
+      @drawingMap[x] = []
+    end
+    
+  end
+    
   
   def convert(level)
-    result = []    
+    dumpedLevel = []
     for x in 0...level.width
-      result[x] = []
+      dumpedLevel[x] = []
       for y in 0...level.height
-       if level.at(x,y).onSight?
-        if level.at(x,y).count == 0
-          result[x][y] = @surfaces[:emptyCell]
-        else
-          if level.at(x,y).count == 2
-             result[x][y] = @surfaces[level.at(x,y)[1].symbol]
-          else
-             result[x][y] = @surfaces[level.at(x,y)[0].symbol]
-          end          
-        end
-       else
-         result[x][y] = @surfaces[:invisible]
+       assignDrawingMap(level.at(x,y))
+       if @drawingMap[x][y]
+        dumpedLevel[x][y] = @spriteCache.getSprite(@drawingMap[x][y][:type],@drawingMap[x][y][:color])
+       end
       end
-    end    
+    end
+    return dumpedLevel
   end
-  return result
-end
+
+  def assignDrawingMap(cell)
+    if @drawingMap[cell.position.x][cell.position.y]
+        @drawingMap[cell.position.x][cell.position.y][:color] = Colors.Gray
+      end
+    if cell.onSight?
+      #assign level symbol
+      if cell.count == 0
+        @drawingMap[cell.position.x][cell.position.y] = {:type => :emptyCell, :color => @spriteCache.getDefaultColor(:emptyCell)}
+      else
+        if cell.count == 2
+           @drawingMap[cell.position.x][cell.position.y] = {:type => cell[1].symbol, :color => @spriteCache.getDefaultColor(cell[1].symbol)}
+        else
+           @drawingMap[cell.position.x][cell.position.y] = {:type => cell[0].symbol, :color => @spriteCache.getDefaultColor(cell[0].symbol)}
+        end
+      end      
+    end
+  end
 end
 
 class SDLdumper
@@ -101,16 +178,18 @@ class SDLdumper
   def startup(cellWidth,cellHeight,cellX,cellY)
     SDL.init(SDL::INIT_VIDEO)
     SDL::Screen.open(cellWidth*cellX,cellHeight*cellY,0,SDL::HWSURFACE)
+    @screen = Screen.get   
   end
 
   def render(dumpedLevel,cellWidth,cellHeight)
-    screen = Screen.get    
     for x in 0...dumpedLevel.count
-      for y in 0...dumpedLevel[x].count       
-        Surface.blit(dumpedLevel[x][y],0,0,cellWidth,cellHeight,screen,x*cellWidth,y*cellHeight)
+      for y in 0...dumpedLevel[x].count
+        if dumpedLevel[x][y] 
+          Surface.blit(dumpedLevel[x][y],0,0,cellWidth,cellHeight,@screen,x*cellWidth,y*cellHeight)
+        end
       end
     end
-    screen.update_rect(0,0,0,0)
+    @screen.update_rect(0,0,0,0)
   end
 end
 

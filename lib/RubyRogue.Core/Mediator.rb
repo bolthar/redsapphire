@@ -34,11 +34,11 @@ module Core
       end
     end
 
-    def render
+    def render      
       playerCell = @level.getCells { |cell| cell.include? @player}[0]
-      position = playerCell.position
-      @level.do_fov(position.x,position.y,6)
-      dumpedLevel = @adapter.convert(@level)
+      position = playerCell.position      
+      @level.do_fov(position.x,position.y,6)     
+      dumpedLevel = @adapter.convert(@level)      
       @dumper.render(dumpedLevel,9,15)
     end
 

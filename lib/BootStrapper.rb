@@ -19,7 +19,7 @@ registry = Needle::Registry.new do |reg|
     reg.register(:connector) { Connector.new }
     reg.register(:architect) { Architect.new(x,y,registry) }
     reg.register(:eventHandler) { SDLeventHandler.new }
-    reg.register(:adapter) { SDLadapter.new }
+    reg.register(:adapter) { SDLadapter.new(w,h,x) }
     reg.register(:dumper) do
       dumper = SDLdumper.new
       dumper.startup(w,h,x,y)
