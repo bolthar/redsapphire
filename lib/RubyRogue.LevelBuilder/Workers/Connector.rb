@@ -70,10 +70,10 @@ module LevelBuilder
       def getGoodLocation(zone, target, direction)
        
         #get empty cells         
-        goodCells = target.getCells { |cell| cell.count == 0 }        
-        targetCell = goodCells[rand(goodCells.count)]
+        goodCells = target.getCells { |cell| cell.length == 0 }
+        targetCell = goodCells[rand(goodCells.length)]
         targetPosition = zone.getPosition(targetCell)
-        while(zone.at(targetPosition).count == 0)
+        while(zone.at(targetPosition).length == 0)
           targetPosition = targetPosition.move(direction)
         end        
         return targetPosition
@@ -86,7 +86,7 @@ module LevelBuilder
         4.times do
           3.times do
             cell = zone.at(point.move(direction))
-            if cell && cell.count == 0
+            if cell && cell.length == 0
              count += 1
             end
             direction = direction.right

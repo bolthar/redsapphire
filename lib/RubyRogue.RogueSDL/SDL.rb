@@ -160,10 +160,10 @@ class SDLadapter
       end
     if cell.onSight?
       #assign level symbol
-      if cell.count == 0
+      if cell.length == 0
         @drawingMap[cell.position.x][cell.position.y] = {:type => :emptyCell, :color => @spriteCache.getDefaultColor(:emptyCell)}
       else
-        if cell.count == 2
+        if cell.length == 2
            @drawingMap[cell.position.x][cell.position.y] = {:type => cell[1].symbol, :color => @spriteCache.getDefaultColor(cell[1].symbol)}
         else
            @drawingMap[cell.position.x][cell.position.y] = {:type => cell[0].symbol, :color => @spriteCache.getDefaultColor(cell[0].symbol)}
@@ -182,8 +182,8 @@ class SDLdumper
   end
 
   def render(dumpedLevel,cellWidth,cellHeight)
-    for x in 0...dumpedLevel.count
-      for y in 0...dumpedLevel[x].count
+    for x in 0...dumpedLevel.length
+      for y in 0...dumpedLevel[x].length
         if dumpedLevel[x][y] 
           Surface.blit(dumpedLevel[x][y],0,0,cellWidth,cellHeight,@screen,x*cellWidth,y*cellHeight)
         end

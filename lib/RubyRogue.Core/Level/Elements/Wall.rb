@@ -12,6 +12,7 @@ module Core
     def symbol
       return self.class
     end
+    
   end
   end
 end

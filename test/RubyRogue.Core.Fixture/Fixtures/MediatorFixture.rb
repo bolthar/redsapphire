@@ -1,6 +1,5 @@
 
 
-
 class MediatorFixture < Test::Unit::TestCase
 
   def test_ctor_always_callRegistryWithRightArguments

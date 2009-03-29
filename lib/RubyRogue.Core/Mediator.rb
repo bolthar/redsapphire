@@ -14,8 +14,8 @@ module Core
     def start
       @level = @architect.build()
       @player = Player.new
-      emptyCells = @level.getCells { |cell| cell.count == 0}
-      playerCell = emptyCells[rand(emptyCells.count)]
+      emptyCells = @level.getCells { |cell| cell.length == 0}
+      playerCell = emptyCells[rand(emptyCells.length)]
       playerCell << @player
       eventResult = true
       while eventResult

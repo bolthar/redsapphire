@@ -7,8 +7,8 @@ include Core
 include Core::Elements
 include SDLWrapper
 
-x = 100
-y = 50
+x = 50
+y = 25
 w = 9
 h = 15
 
