@@ -43,8 +43,7 @@ module LevelBuilder
         for y in 0...zones[x].length         
           return false if !zones[x][y].connected?
         end
-      end
-      "exit method"
+      end      
       return true
     end
 
