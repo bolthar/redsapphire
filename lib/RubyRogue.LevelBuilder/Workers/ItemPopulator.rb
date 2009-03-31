@@ -12,7 +12,7 @@ module LevelBuilder
         emptyCells =  level.getCells { |cell| cell.length == 0}
         numberOfItems.times do
           cell = emptyCells[rand(emptyCells.length)]
-          cell << Item.new          
+          cell << Item.new
         end
       end
     end

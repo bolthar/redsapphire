@@ -132,11 +132,22 @@ class SpriteCache
     return @palettePositions[type][:defaultColor]
   end
 end
+
+
 class SDLadapter
   
   def initialize(w,h,colunms)
     
     @spriteCache = SpriteCache.new(w,h)
+
+    @symbolsPriority = {}
+    @symbolsPriority[:emptyCell] = 4
+    @symbolsPriority[Wall] = 3
+    @symbolsPriority[DoorClosed] = 3
+    @symbolsPriority[DoorOpen] = 3
+    @symbolsPriority[DoorSecret] = 3
+    @symbolsPriority[Player] = 1
+    @symbolsPriority[Item] = 2
 
     @drawingMap = []
     for x in 0...colunms
@@ -166,18 +177,20 @@ class SDLadapter
       end
     if cell.onSight?
       #assign level symbol
-      if cell.length == 0
-        @drawingMap[cell.position.x][cell.position.y] = {:type => :emptyCell, :color => @spriteCache.getDefaultColor(:emptyCell)}
-      else
-        if cell.length == 2
-           @drawingMap[cell.position.x][cell.position.y] = {:type => cell[1].symbol, :color => @spriteCache.getDefaultColor(cell[1].symbol)}
-        else
-           @drawingMap[cell.position.x][cell.position.y] = {:type => cell[0].symbol, :color => @spriteCache.getDefaultColor(cell[0].symbol)}
-        end
-      end      
+      @drawingMap[cell.position.x][cell.position.y] = getCellSymbol(cell)
     end
   end
+
+  private
+  def getCellSymbol(cell)
+    symbol = {:type => :emptyCell, :color => @spriteCache.getDefaultColor(:emptyCell)}
+    cell.each do |element|
+      symbol = {:type => element.symbol, :color => @spriteCache.getDefaultColor(element.symbol)} if @symbolsPriority[symbol[:type]] > @symbolsPriority[element.symbol]
+    end
+    return symbol
+  end
 end
+
 
 class SDLdumper
 
