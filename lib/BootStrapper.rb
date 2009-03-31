@@ -25,6 +25,7 @@ registry = Needle::Registry.new do |reg|
       dumper.startup(w,h,x,y)
       dumper
     end
+    reg.register(:itemPopulator) { ItemPopulator.new }
 
 end
 

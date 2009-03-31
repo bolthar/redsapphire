@@ -11,6 +11,7 @@ class ArchitectFixture < Test::Unit::TestCase
      r.register(:splitter) { Splitter.new }
      r.register(:roomDigger) { RoomDigger.new }
      r.register(:connector) { Connector.new }
+     r.register(:itemPopulator) { ItemPopulator.new}
    end
    architect = Architect.new(50,50,registry)
    level = architect.build

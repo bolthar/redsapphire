@@ -69,6 +69,11 @@ class Colors
     return @colors[:grey]
   end
 
+  def Colors.LightBlue
+    @colors[:lightBlue] = Color.new(0.3,0.3,1) if !@colors[:lightBlue]
+    return @colors[:lightBlue]
+  end
+
 
   
 end
@@ -89,6 +94,7 @@ class SpriteCache
     @palettePositions[DoorSecret] = {:x => 22, :y => 2, :defaultColor => Colors.LightBrown}
     @palettePositions[:invisible] = {:x => 22, :y => 2, :defaultColor => Colors.Black}
     @palettePositions[Player] = {:x => 23, :y => 2, :defaultColor => Colors.White}
+    @palettePositions[Item] = {:x => 7, :y => 2, :defaultColor => Colors.LightBlue}
 
     @cache = {}    
     @palettePositions.each_pair do |key,value|      

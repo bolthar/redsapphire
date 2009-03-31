@@ -13,6 +13,7 @@ module LevelBuilder
       @splitter = registry.splitter
       @roomDigger = registry.roomDigger
       @connector = registry.connector
+      @itemPopulator = registry.itemPopulator
     end
 
     def build
@@ -33,6 +34,7 @@ module LevelBuilder
       while(!allZonesConnected?(zones))
         connectRandomZone(zones)
       end
+      @itemPopulator.populate(@level,15)
       return @level
     end
 
