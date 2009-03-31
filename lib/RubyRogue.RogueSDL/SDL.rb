@@ -74,6 +74,11 @@ class Colors
     return @colors[:lightBlue]
   end
 
+  def Colors.Yellow
+    @colors[:yellow] = Color.new(1,1,0) if !@colors[:yellow]
+    return @colors[:yellow]
+  end
+
 
   
 end
@@ -95,6 +100,7 @@ class SpriteCache
     @palettePositions[:invisible] = {:x => 22, :y => 2, :defaultColor => Colors.Black}
     @palettePositions[Player] = {:x => 23, :y => 2, :defaultColor => Colors.White}
     @palettePositions[Item] = {:x => 7, :y => 2, :defaultColor => Colors.LightBlue}
+    @palettePositions[Gold] = {:x => 13, :y => 2, :defaultColor => Colors.Yellow}
 
     @cache = {}    
     @palettePositions.each_pair do |key,value|      
@@ -148,6 +154,7 @@ class SDLadapter
     @symbolsPriority[DoorSecret] = 3
     @symbolsPriority[Player] = 1
     @symbolsPriority[Item] = 2
+    @symbolsPriority[Gold] = 2
 
     @drawingMap = []
     for x in 0...colunms
@@ -225,6 +232,8 @@ class SDLeventHandler
     @keyMap[SDL::Key::KP4] = {:method => :move, :parameters => Direction.Left}
     @keyMap[SDL::Key::KP7] = {:method => :move, :parameters => Direction.UpLeft}
     @keyMap[SDL::Key::Q] = {:method => :quit}
+    @keyMap[SDL::Key::I] = {:method => :inventory}
+    @keyMap[SDL::Key::G] = {:method => :gold}
   end
 
 

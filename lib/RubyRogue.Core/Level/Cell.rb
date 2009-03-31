@@ -19,11 +19,16 @@ class Cell < Array
 
   def <<(item)
     raise "Item added must respond to method 'fill?'" unless item.respond_to? :fill?
-    
-    if self.blocked?    
-      item.collide(self[0]) if item.respond_to? :collide
+
+    blockingElement = self.blocked?
+    if blockingElement
+      item.collide(blockingElement) if item.respond_to? :collide
       return false
     else
+      self.each do |element|
+        result = item.overlap(element) if item.respond_to? :overlap
+        self.delete(element) if result
+      end
       super(item)
       return true
     end
@@ -44,7 +49,7 @@ class Cell < Array
 
   def blocked?
     self.each { |element|
-      return true if element.fill?
+      return element if element.fill?
       }
     return false
   end

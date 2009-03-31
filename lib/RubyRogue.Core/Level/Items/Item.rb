@@ -18,5 +18,15 @@ module Core
       end
     end
 
+    class Gold < Item
+      
+      attr_reader :value
+
+      def initialize
+        @value = rand(100)
+      end
+
+    end
+
   end
 end

@@ -4,6 +4,14 @@
 module Core::Elements
   class Player
 
+
+    attr_reader :inventory, :gold
+    
+    def initialize
+      @inventory = []
+      @gold = rand(30)
+    end
+
     def fill?
       return false
     end
@@ -13,6 +21,21 @@ module Core::Elements
         element.open
       end
     end
+
+    def overlap(element)
+      if element.class == Item
+        @inventory << element
+      end
+      if element.class == Gold
+        @gold += element.value
+      end
+      return true
+    end
+
+   
+
+
+
 
     def symbol
       return self.class

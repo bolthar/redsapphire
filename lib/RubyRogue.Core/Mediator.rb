@@ -56,6 +56,17 @@ module Core
       #if no do nothing
       return true
     end
+    
+    def inventory()
+      p @player.inventory
+      return true
+    end
+
+     def gold()
+      p @player.gold
+      return true
+    end
+
 
     def quit()
       return false

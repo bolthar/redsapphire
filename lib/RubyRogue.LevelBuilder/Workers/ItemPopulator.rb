@@ -14,6 +14,10 @@ module LevelBuilder
           cell = emptyCells[rand(emptyCells.length)]
           cell << Item.new
         end
+        20.times do
+          cell = emptyCells[rand(emptyCells.length)]
+          cell << Gold.new
+        end
       end
     end
   end

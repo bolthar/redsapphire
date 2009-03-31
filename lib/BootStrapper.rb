@@ -23,9 +23,9 @@ registry = Needle::Registry.new do |reg|
     reg.register(:dumper) do
       dumper = SDLdumper.new
       dumper.startup(w,h,x,y)
-      dumper
+      dumper     
     end
-    reg.register(:itemPopulator) { ItemPopulator.new }
+    reg.register(:itemPopulator) { ItemPopulator.new}
 
 end
 
