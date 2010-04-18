@@ -5,9 +5,9 @@ module Core
   class Mediator
 
     def initialize(registry)
-      @eventHandler = registry.eventHandler
-      @adapter = registry.adapter
-      @architect = registry.architect
+      @event_handler = registry.eventHandler
+      @adapter       = registry.adapter
+      @architect     = registry.architect
     end
     
     def start
@@ -20,7 +20,7 @@ module Core
       eventResult = true
       while eventResult
         render()
-        event = @eventHandler.get_input
+        event = @event_handler.get_input
         eventResult = handleEvent(event) if event
       end
     end
@@ -61,11 +61,10 @@ module Core
       return true
     end
 
-     def gold()
+    def gold()
       p @player.gold
       return true
     end
-
 
     def quit()
       return false

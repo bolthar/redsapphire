@@ -1,5 +1,3 @@
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
 
 module Core
 
@@ -15,8 +13,7 @@ module Core
     end
 
     def ==(target)
-       return true if self.y == target.y if self.x == target.x
-       return false
+       return self.y == target.y if self.x == target.x
     end
 
     def xOffset(target)
