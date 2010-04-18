@@ -2,9 +2,9 @@
 class Headers
   def Headers.includeRequirements
     baseDir = Dir.pwd
-    doIncludeDirectory(baseDir + "/RubyRogue.Core")
-    doIncludeDirectory(baseDir + "/RubyRogue.RogueSDL")
-    doIncludeDirectory(baseDir + "/RubyRogue.LevelBuilder")
+    doIncludeDirectory(baseDir + "/core")
+    doIncludeDirectory(baseDir + "/sdl")
+    doIncludeDirectory(baseDir + "/level_builder")
   end
 
   def Headers.doIncludeDirectory(directory)

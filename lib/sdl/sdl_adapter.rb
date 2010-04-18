@@ -61,7 +61,6 @@ class SdlAdapter
   end
   
   def render(level)
-#    @screen.fill_rect(0,0,0,0)
     (0...level.width).each do |x|
       (0...level.height).each do |y|
         cell = level.at(x,y)
@@ -69,6 +68,8 @@ class SdlAdapter
         @font.draw_blended_utf8(@screen, get_char(cell), x * 8, y * 14,*get_rgb(cell))
       end
     end
+    draw_gold(level.player.gold)
+    draw_items(level.player.inventory)
     @screen.update_rect(0,0,640,480)
   end
 
@@ -82,7 +83,20 @@ class SdlAdapter
     return [120, 120, 120] unless cell.onSight?
     return @tiles[cell.first.symbol][:color]
   end
-  
+
+  def draw_gold(gold)
+    @screen.fill_rect(450, 0 ,8 * 10 ,14,[0,0,0,0])
+    @font.draw_blended_utf8(@screen, "Gold #{gold}", 450, 0, *[200, 50, 10])
+  end
+
+  def draw_items(inventory)
+    @screen.fill_rect(450, 28 ,8 * 12 ,14 * 10,[0,0,0,0])
+    @font.draw_blended_utf8(@screen, "ITEMS" , 450, 28 , *[0, 200, 100])
+    inventory.each do |item|
+      @font.draw_blended_utf8(@screen, item.name , 450, (inventory.index(item) * 14) + 42 , *[0, 200, 100])
+    end
+  end
+
 end
 
 #surface1 = ttf.draw_blended_utf8("sadssssssssssssssdasdadasdada", 255, 0, 0)

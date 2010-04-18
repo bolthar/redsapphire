@@ -3,10 +3,13 @@
 
 module Core
   module Items
-
+    
     class Item
+
+      attr_reader :name
+
       def initialize
-        
+        @name = (0..5).map { |n| ('a'..'z').to_a[rand(26)] }.join
       end
 
       def fill?

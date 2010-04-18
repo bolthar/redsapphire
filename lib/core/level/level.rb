@@ -17,6 +17,16 @@ module Core
       end
     end
 
+    def player
+      for x in 0...width
+        for y in 0...height
+          if @cells[x][y].any? { |element| element.kind_of? Player }
+           return @cells[x][y].select{ |element| element.kind_of? Player }.first
+          end
+        end
+      end
+    end
+
     def light(x,y)
       self.at(x,y).light
     end

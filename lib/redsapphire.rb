@@ -1,5 +1,5 @@
 
-require 'Headers.rb'
+require 'headers.rb'
 
 include LevelBuilder
 include LevelBuilder::Workers
