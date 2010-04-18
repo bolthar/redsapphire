@@ -1,17 +1,19 @@
 
 module Core
   class Level
-    include Accessible
+    include Enumerable
     include LOS
     include FOV
+
+    attr_reader :width, :height
 
     def initialize(width, height)
       @height = height
       @width = width
       @cells = []
-      for x in 0...width
+      for x in 0..width
         @cells[x] = []
-        for y in 0...height
+        for y in 0..height
           @cells[x][y] = Cell.new(self,x,y)
         end
       end
@@ -27,12 +29,24 @@ module Core
       end
     end
 
+    def each
+      @cells.each do |line|
+        line.each do |cell|
+          yield(cell)
+        end
+      end
+    end
+
+    def [](x, y)
+      return @cells[x][y]
+    end
+
     def light(x,y)
-      self.at(x,y).light
+      self[x,y].light
     end
 
     def blocked?(x,y)
-      return self.at(x,y).blocked?
+      return self[x,y].blocked?
     end
     
 

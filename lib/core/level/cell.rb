@@ -37,6 +37,11 @@ class Cell < Array
 
   def light
     @onSight = true
+    @visited = true
+  end
+
+  def visited?
+    return @visited
   end
 
   def lightsOff

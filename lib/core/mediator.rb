@@ -14,7 +14,7 @@ module Core
       @adapter.startup
       @level = @architect.build()
       @player = Player.new
-      emptyCells = @level.getCells { |cell| cell.length == 0}
+      emptyCells = @level.select { |cell| cell.length == 0}
       playerCell = emptyCells[rand(emptyCells.length)]
       playerCell << @player
       eventResult = true
@@ -35,7 +35,7 @@ module Core
     end
 
     def render      
-      playerCell = @level.getCells { |cell| cell.include? @player}[0]
+      playerCell = @level.select { |cell| cell.include? @player}[0]
       position = playerCell.position      
       @level.do_fov(position.x,position.y,6)     
       @adapter.render(@level) 
@@ -43,12 +43,12 @@ module Core
 
     def move(direction)
       #get player position
-      playerCell = @level.getCells { |cell| cell.include? @player}[0]
+      playerCell = @level.select { |cell| cell.include? @player}[0]
       position = playerCell.position
       #get new position
       newPosition = position.move(direction)
       #try to put in new cell
-      if @level.at(newPosition) << @player
+      if @level[newPosition.x, newPosition.y] << @player
          #if yes move player        
          playerCell.delete(@player)         
       end

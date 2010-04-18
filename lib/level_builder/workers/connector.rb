@@ -57,23 +57,23 @@ module LevelBuilder
       def digCorridor!(zone, startPoint, direction, length)
         length.times do          
           startPoint = startPoint.move(direction)         
-          zone.at(startPoint).clear
+          zone[startPoint.x, startPoint.y].clear
           end
         return startPoint
       end
 
       def putDoor!(zone,point)
-        zone.at(point.x,point.y).clear
-        zone.at(point.x,point.y) << Door.new  if doorHereIsOkay(zone,point)
+        zone[point.x,point.y].clear
+        zone[point.x,point.y] << Door.new  if doorHereIsOkay(zone,point)
       end
 
       def getGoodLocation(zone, target, direction)
        
         #get empty cells         
-        goodCells = target.getCells { |cell| cell.length == 0 }
+        goodCells = target.select { |cell| cell.length == 0 }
         targetCell = goodCells[rand(goodCells.length)]
         targetPosition = zone.getPosition(targetCell)
-        while(zone.at(targetPosition).length == 0)
+        while(zone[targetPosition.x, targetPosition.y].length == 0)
           targetPosition = targetPosition.move(direction)
         end        
         return targetPosition
@@ -85,7 +85,7 @@ module LevelBuilder
         count = 0
         4.times do
           3.times do
-            cell = zone.at(point.move(direction))
+            cell = zone[point.move(direction).x, point.move(direction).y]
             if cell && cell.length == 0
              count += 1
             end

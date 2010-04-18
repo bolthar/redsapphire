@@ -9,7 +9,7 @@ module LevelBuilder
       def buildFeature!(zone,x,y,width,height)
         for xPos in x...(x + width)
           for yPos in y...(y + height)
-            zone.at(xPos,yPos).clear
+            zone[xPos,yPos].clear
           end
         end
         #determine zone center

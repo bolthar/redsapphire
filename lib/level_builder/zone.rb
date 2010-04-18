@@ -6,10 +6,11 @@ include Core
 module LevelBuilder
 
   class Zone
-    include Accessible
-
+    include Enumerable
+    
     attr_accessor :center
     attr_reader :level, :xOffset, :yOffset
+    attr_reader :width, :height
 
     def initialize(level, xFrom, xTo, yFrom, yTo)
       @level = level
@@ -24,7 +25,19 @@ module LevelBuilder
         for y in 0...(yTo-yFrom)
           xLocation = xFrom+x
           yLocation = yFrom+y
-          @cells[x][y] = level.at(xLocation,yLocation)
+          @cells[x][y] = level[xLocation, yLocation]
+        end
+      end
+    end
+
+    def [](x, y)
+      return @cells[x][y]
+    end
+
+    def each
+      @cells.each do |line|
+        line.each do |cell|
+          yield(cell)
         end
       end
     end
@@ -91,7 +104,7 @@ module LevelBuilder
     def getPosition(cell)
       for x in 0...width
         for y in 0...height
-          return Position.new(x,y) if self.at(x,y).equal?(cell)
+          return Position.new(x,y) if self[x,y].equal?(cell)
         end
       end
       return nil

@@ -61,9 +61,16 @@ class SdlAdapter
   end
   
   def render(level)
-    (0...level.width).each do |x|
-      (0...level.height).each do |y|
-        cell = level.at(x,y)
+    player_cell = level.select { |l| l.any? { |el| el.kind_of? Player }}.first
+    center_x    = player_cell.position.x
+    center_y    = player_cell.position.y
+    center_x = 15 if center_x < 15
+    center_y = 10 if center_y < 10
+    center_x = level.width - 15 if center_x >= level.width - 15
+    center_y = level.height - 10 if center_y >= level.height - 10
+    (0...30).each do |x|
+      (0...20).each do |y|
+        cell = level[x - 15 + center_x, y - 10 + center_y]
         @screen.fill_rect(x * 8, y * 14 ,8 ,14,[0,0,0,0])
         @font.draw_blended_utf8(@screen, get_char(cell), x * 8, y * 14,*get_rgb(cell))
       end
@@ -79,7 +86,8 @@ class SdlAdapter
   end
 
   def get_rgb(cell)
-    return [255, 255, 255] if cell.empty?
+    return [0, 0, 0]       unless cell.visited?
+    return [255, 255, 255] if cell.empty?   
     return [120, 120, 120] unless cell.onSight?
     return @tiles[cell.first.symbol][:color]
   end

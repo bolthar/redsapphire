@@ -8,11 +8,8 @@ module LevelBuilder
     class LevelFiller
 
       def fillLevel!(level)
-        for x in 0...level.width
-          for y in 0...level.height
-            pos = Position.new(x,y)
-            level.at(pos) << Wall.new
-          end
+        level.each do |cell|
+          cell << Wall.new
         end
       end
 
