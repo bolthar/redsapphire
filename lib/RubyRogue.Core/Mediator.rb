@@ -7,11 +7,11 @@ module Core
     def initialize(registry)
       @eventHandler = registry.eventHandler
       @adapter = registry.adapter
-      @dumper = registry.dumper
       @architect = registry.architect
     end
     
     def start
+      @adapter.startup
       @level = @architect.build()
       @player = Player.new
       emptyCells = @level.getCells { |cell| cell.length == 0}
@@ -20,7 +20,7 @@ module Core
       eventResult = true
       while eventResult
         render()
-        event = @eventHandler.getInput
+        event = @eventHandler.get_input
         eventResult = handleEvent(event) if event
       end
     end
@@ -38,8 +38,7 @@ module Core
       playerCell = @level.getCells { |cell| cell.include? @player}[0]
       position = playerCell.position      
       @level.do_fov(position.x,position.y,6)     
-      dumpedLevel = @adapter.convert(@level)      
-      @dumper.render(dumpedLevel,9,15)
+      @adapter.render(@level) 
     end
 
     def move(direction)

@@ -23,13 +23,17 @@ module Core::Elements
     end
 
     def overlap(element)
-      if element.class == Item
-        @inventory << element
+      if element.class == Item || element.class == Gold
+        if element.class == Item
+          @inventory << element
+        end
+        if element.class == Gold
+          @gold += element.value
+        end
+        return true
+      else
+        return false
       end
-      if element.class == Gold
-        @gold += element.value
-      end
-      return true
     end
 
    

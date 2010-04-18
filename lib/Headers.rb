@@ -1,7 +1,4 @@
 
-require 'rubygems'
-require 'needle'
-
 class Headers
   def Headers.includeRequirements
     baseDir = Dir.pwd
@@ -15,8 +12,7 @@ class Headers
     files.each { |file|
         require file}
     nestedDirs = Dir.glob(directory + "/**/**")
-    nestedDirs.each { |dir| doIncludeDirectory(dir)}
-    
+    nestedDirs.each { |dir| doIncludeDirectory(dir)}    
   end  
 end
 

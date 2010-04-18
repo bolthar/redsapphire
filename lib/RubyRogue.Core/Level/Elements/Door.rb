@@ -20,8 +20,7 @@ module Core::Elements
       end
     end
 
-  class Door
-    
+  class Door    
     
       def initialize
         value = rand(8)
