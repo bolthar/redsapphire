@@ -1,6 +1,3 @@
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-
 
 module Core
 class Cell < Array
@@ -19,21 +16,22 @@ class Cell < Array
 
   def <<(item)
     raise "Item added must respond to method 'fill?'" unless item.respond_to? :fill?
-
     blockingElement = self.blocked?
     if blockingElement
-      item.collide(blockingElement) if item.respond_to? :collide
+      item.collide(blockingElement)
       return false
     else
       self.each do |element|
-        result = item.overlap(element) if item.respond_to? :overlap
-        self.delete(element) if result
+        item.overlap(element)
       end
+      item.
       super(item)
       return true
     end
     
   end
+
+
 
   def light
     @onSight = true

@@ -5,7 +5,6 @@ module Core::Elements
     attr_reader :gold
     
     def initialize
-      @inventory = []
       @gold = rand(30)
     end
 
@@ -35,12 +34,7 @@ module Core::Elements
         return false
       end
     end
-
-   
-
-
-
-
+    
     def symbol
       return self.class
     end
