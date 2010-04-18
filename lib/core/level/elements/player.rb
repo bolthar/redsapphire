@@ -1,11 +1,8 @@
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
 
 module Core::Elements
   class Player
 
-
-    attr_reader :inventory, :gold
+    attr_reader :gold
     
     def initialize
       @inventory = []
@@ -19,6 +16,9 @@ module Core::Elements
     def collide(element)
       if element.kind_of? Door
         element.open
+      end
+      if element.kind_of? Monster
+        element.take_damage
       end
     end
 

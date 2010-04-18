@@ -14,14 +14,24 @@ module Core
       @adapter.startup
       @level = @architect.build()
       @player = Player.new
-      emptyCells = @level.select { |cell| cell.length == 0}
-      playerCell = emptyCells[rand(emptyCells.length)]
-      playerCell << @player
-      eventResult = true
-      while eventResult
+      @monsters = [GiantBat.new, GiantBat.new, GiantBat.new]
+      @monsters.each do |m|
+        m.when_dead do
+          @monsters.delete(m)
+          @level.select { |cell| cell.include?(m)}.first.delete(m)
+        end
+      end
+      [@player, *@monsters].each do |entity|
+        emptyCells = @level.select { |cell| cell.length == 0}
+        playerCell = emptyCells[rand(emptyCells.length)]
+        playerCell << entity
+        p playerCell.position
+      end
+      event_result = true
+      while event_result
         render()
         event = @event_handler.get_input
-        eventResult = handleEvent(event) if event
+        event_result = handleEvent(event) if event
       end
     end
 

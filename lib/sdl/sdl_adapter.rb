@@ -13,10 +13,11 @@ class SdlAdapter
     @tiles[Wall]       = {:char => '#', :color => [210, 105, 30]}
     @tiles[DoorClosed] = {:char => '+', :color => [210, 105, 30]}
     @tiles[DoorOpen]   = {:char => '`', :color => [210, 105, 30]}
-    @tiles[DoorSecret] = {:char => '#', :color => [210, 105, 30]}
+    @tiles[DoorSecret] = {:char => '#', :color => [210, 0, 30]}
     @tiles[Player]     = {:char => '@', :color => [255, 255, 255]}
     @tiles[Item]       = {:char => '?', :color => [99, 184, 255]}
     @tiles[Gold]       = {:char => '*', :color => [240, 230, 140]}
+    @tiles[GiantBat]   = {:char => 'b', :color => [255, 255, 255]}
   end
   
   def startup
@@ -39,8 +40,8 @@ class SdlAdapter
         @font.draw_blended_utf8(@screen, get_char(cell), x * 8, y * 14,*get_rgb(cell))
       end
     end
-    draw_gold(level.player.gold)
-    draw_items(level.player.inventory)
+#    draw_gold(level.player.gold)
+#    draw_items(level.player.inventory)
     @screen.update_rect(0,0,640,480)
   end
 

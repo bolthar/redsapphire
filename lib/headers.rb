@@ -1,21 +1,10 @@
 
-class Headers
-  def Headers.includeRequirements
-    baseDir = Dir.pwd
-    doIncludeDirectory(baseDir + "/core")
-    doIncludeDirectory(baseDir + "/sdl")
-    doIncludeDirectory(baseDir + "/level_builder")
-  end
+require 'require_all'
 
-  def Headers.doIncludeDirectory(directory)
-    files = Dir.glob(directory + "/*.rb")    
-    files.each { |file|
-        require file}
-    nestedDirs = Dir.glob(directory + "/**/**")
-    nestedDirs.each { |dir| doIncludeDirectory(dir)}    
-  end  
-end
+require_all File.join(File.dirname(__FILE__), 'core')
+require_all File.join(File.dirname(__FILE__), 'level_builder')
+require_all File.join(File.dirname(__FILE__), 'sdl')
 
-Headers.includeRequirements
+
 
 
