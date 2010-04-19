@@ -19,6 +19,14 @@ module Core
       end
     end
 
+    def each
+      @cells.each do |line|
+        line.each do |cell|
+          yield(cell)
+        end
+      end
+    end
+
     def player
       for x in 0...width
         for y in 0...height
@@ -27,15 +35,7 @@ module Core
           end
         end
       end
-    end
-
-    def each
-      @cells.each do |line|
-        line.each do |cell|
-          yield(cell)
-        end
-      end
-    end
+    end    
 
     def [](x, y)
       return @cells[x][y]
@@ -47,8 +47,7 @@ module Core
 
     def blocked?(x,y)
       return self[x,y].blocked?
-    end
-    
+    end   
 
   end
 end
