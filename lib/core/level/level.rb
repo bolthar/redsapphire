@@ -15,7 +15,7 @@ class Level
     for x in 0...width
       @cells[x] = []
       for y in 0...height
-        @cells[x][y] = Cell.new(@objects)
+        @cells[x][y] = Cell.new(@objects, x, y)
       end
     end
   end

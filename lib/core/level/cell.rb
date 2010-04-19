@@ -3,13 +3,16 @@ class Cell
   include Enumerable
 
   attr_reader :level
+  attr_reader :x, :y
 
-  def initialize(objects)
+  def initialize(objects, x, y)
     @objects = objects
+    @x       = x
+    @y       = y
   end
  
   def light
-    @onSight = true
+    @on_sight = true
     @visited = true
   end
 
@@ -26,26 +29,32 @@ class Cell
   end
 
   def blocked?
-    return true
+    return false if empty?
+    return @elements.any? { |element| element.fill? }
   end
 
   def first
-    return @objects.first
+    return elements.first
   end
 
   def empty?
-    return @objects.empty?
+    return elements.empty?
   end
   
   def each(&block)
-    return @objects.each(&block)
+    return elements.each(&block)
+  end
+
+  def invalidate
+    @elements = nil
   end
 
   private
   def elements
-    return @objects.select do |entity|
+    @elements = @objects.select do |entity|
       entity.owner == self
-    end
+    end unless @elements
+    return @elements
   end
 
 end

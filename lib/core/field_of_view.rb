@@ -42,7 +42,7 @@ module FOV
           break
         else
           # Our light beam is touching this square; light it
-          light(mx, my) if (dx*dx + dy*dy) < radius_sq
+          self[mx,my].light if (dx*dx + dy*dy) < radius_sq
           if blocked
             # We've scanning a row of blocked squares
             if self[mx, my].blocked?

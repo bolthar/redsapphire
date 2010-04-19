@@ -15,7 +15,7 @@ class SdlAdapter
       p values
       @tiles[values[0]] = {:char => values[1], 
                            :color =>
-                             [values[2].split(',')[0], values[2].split(',')[1], values[2].split(',')[2]]}
+                             [values[2].split(',')[0].to_i, values[2].split(',')[1].to_i, values[2].split(',')[2].to_i]}
     end
   end
   
@@ -49,9 +49,9 @@ class SdlAdapter
   end
 
   def get_rgb(cell)
-#    return [0, 0, 0]       unless cell.visited?
-    return [255, 255, 255] if cell.empty?
+    return [0, 0, 0]       unless cell.visited?
     return [120, 120, 120] unless cell.on_sight?
+    return [255, 255, 255] if cell.empty?    
     return @tiles[cell.first.symbol][:color]
   end
 
