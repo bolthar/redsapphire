@@ -1,38 +1,13 @@
 
-module Core
-class Cell < Array
-
-  def initialize(level,x,y)
-    @level = level
-    @x = x
-    @y = y
-  end
-
-  def position
-    return Position.new(@x,@y)
-  end
+class Cell
+  include Enumerable
 
   attr_reader :level
 
-  def <<(item)
-    raise "Item added must respond to method 'fill?'" unless item.respond_to? :fill?
-    blockingElement = self.blocked?
-    if blockingElement
-      item.collide(blockingElement)
-      return false
-    else
-      self.each do |element|
-        item.overlap(element)
-      end
-      item.
-      super(item)
-      return true
-    end
-    
+  def initialize(objects)
+    @objects = objects
   end
-
-
-
+ 
   def light
     @onSight = true
     @visited = true
@@ -42,22 +17,35 @@ class Cell < Array
     return @visited
   end
 
-  def lightsOff
-    @onSight = false
+  def lights_off
+    @on_sight = false
   end
 
-  def onSight?
-    return @onSight
+  def on_sight?
+    return @on_sight
   end
 
   def blocked?
-    self.each { |element|
-      return element if element.fill?
-      }
-    return false
+    return true
   end
- 
 
-end
+  def first
+    return @objects.first
+  end
+
+  def empty?
+    return @objects.empty?
+  end
+  
+  def each(&block)
+    return @objects.each(&block)
+  end
+
+  private
+  def elements
+    return @objects.select do |entity|
+      entity.owner == self
+    end
+  end
 
 end
