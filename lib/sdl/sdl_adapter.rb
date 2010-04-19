@@ -10,6 +10,7 @@ class SdlAdapter
     TTF.init
     @font = TTF.open(File.join(File.dirname(__FILE__), 'dejavu.ttf'), 12)
     @tiles = {}
+    @map = Array.new(30*15, " ")
     File.open(File.join(File.dirname(__FILE__), 'tiles.txt')).lines.each do |line|
       values = line.strip.split("\t")
       p values
@@ -36,11 +37,25 @@ class SdlAdapter
       (0...level.height).each do |y|
 #        cell = level[x - 15 + center_x, y - 10 + center_y]
         cell = level[x, y]
+        if cell.on_sight?
+          @map[(y*30)+x] = get_char(cell)
+          color = get_rgb(cell)
+        else
+          color = [120,120,120]
+        end
         @screen.fill_rect(x * 8, y * 14 ,8 ,14,[0,0,0,0])
-        @font.draw_blended_utf8(@screen, get_char(cell), x * 8, y * 14,*get_rgb(cell))
+        @font.draw_blended_utf8(@screen, @map[(y*30)+x], x * 8, y * 14,*color)
       end
     end
+    draw_messages(level.messages.reverse.take(5))
     @screen.update_rect(0,0,640,480)
+  end
+
+  def draw_messages(messages)
+    @screen.fill_rect(0, 360 , 640, 70,[0,0,0,0])
+    (0...messages.length).each do |line|
+      @font.draw_blended_utf8(@screen, messages[line], 0, (line * 14) + 360, *[255,255,255])
+    end
   end
 
   def get_char(cell)

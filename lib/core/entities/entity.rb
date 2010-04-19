@@ -8,12 +8,26 @@ class Entity
     @owner.invalidate
   end
 
+  def destroy
+    old_owner = @owner
+    @owner = nil
+    old_owner.invalidate
+  end
+
+  def message(message)
+    @owner.add_message(message)
+  end
+
   def x
     return @owner.x
   end
 
   def y
     return @owner.y
+  end
+
+  def turn_passed
+    
   end
 
   def owner=(new_owner)

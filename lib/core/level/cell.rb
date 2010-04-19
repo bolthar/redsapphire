@@ -2,13 +2,16 @@
 class Cell
   include Enumerable
 
-  attr_reader :level
   attr_reader :x, :y
 
-  def initialize(objects, x, y)
-    @objects = objects
-    @x       = x
-    @y       = y
+  def initialize(level, x, y)
+    @level = level
+    @x     = x
+    @y     = y
+  end
+
+  def pan(delta_x, delta_y)
+    return @level[@x - delta_x, @y - delta_y]
   end
  
   def light
@@ -49,9 +52,13 @@ class Cell
     @elements = nil
   end
 
+  def add_message(message)
+    @level.messages << message
+  end
+  
   private
   def elements
-    @elements = @objects.select do |entity|
+    @elements = @level.objects.select do |entity|
       entity.owner == self
     end unless @elements
     return @elements
