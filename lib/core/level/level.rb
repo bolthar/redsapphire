@@ -38,6 +38,10 @@ class Level
     end
   end
 
+  def enemies_in_sight
+    return @objects.select { |obj| obj.owner.on_sight? && obj.kind_of?(Monster) }
+  end
+
   def each
     @cells.each do |line|
       line.each do |cell|

@@ -4,8 +4,7 @@ class Rat < Monster
   def initialize(owner)
     super(owner)
     @hp = rand(10)
-    @actions = {}
-    @actions[Player] = Attack.new
+    
   end
   
   def fill?
@@ -13,7 +12,7 @@ class Rat < Monster
   end
 
   def hit(target)
-    return 0
+    return 1
   end
 
   def name

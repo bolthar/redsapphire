@@ -4,8 +4,7 @@ class Player < Entity
   def initialize(owner)
     super(owner)
     @actions = {}
-    @actions[Rat] = Attack.new
-    @actions[Goblin] = Attack.new
+    @actions[Monster] = Attack.new
   end
 
   def fill?

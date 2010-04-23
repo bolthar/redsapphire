@@ -1,11 +1,11 @@
 
-class Goblin < Monster
+class Troll < Monster
 
   def initialize(owner)
     super(owner)
-    @hp = rand(8) + 4
+    @hp = rand(20) + 6
   end
-
+  
   def fill?
     return true
   end
@@ -15,7 +15,7 @@ class Goblin < Monster
   end
 
   def name
-    return "the goblin"
+    return "the troll"
   end
 
   def turn_passed
@@ -24,7 +24,7 @@ class Goblin < Monster
     else
       target = get_fleeing_target(self.owner.level.player.owner)
     end
-    move(target) if target    
+    move(target) if target
   end
 
   def get_fleeing_target(player_cell)

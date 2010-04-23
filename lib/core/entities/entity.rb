@@ -15,8 +15,14 @@ class Entity
   end
 
   def interact_with(target)
-    action = @actions[target.class]
+    action = get_action(target.class)
     action.execute(self, target) if action
+  end
+
+  def get_action(klass)
+    return @actions[klass] if @actions[klass]
+    return nil unless klass.superclass
+    return get_action(klass.superclass)
   end
 
   def message(message)
