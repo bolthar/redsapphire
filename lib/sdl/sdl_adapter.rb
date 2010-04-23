@@ -28,7 +28,7 @@ class SdlAdapter
   def render(level)
     center_x    = level.player.x
     center_y    = level.player.y
-    center_x = 12 if center_x < 8
+    center_x = 12 if center_x < 12
     center_y = 8 if center_y < 8
     center_x = level.width - 12 if center_x >= level.width - 12
     center_y = level.height - 8 if center_y >= level.height - 8
@@ -39,9 +39,9 @@ class SdlAdapter
           @map[((y - 8 + center_y)*30)+ x - 12 + center_x] = get_char(cell)
           color = get_rgb(cell)
         else
-          color = [120,120,120]
+          color  = [120,120,120]
         end
-        @screen.fill_rect(x * 7, y * 15 ,7 ,15,[0,0,0,0])
+        @screen.fill_rect(x * 7, y * 15 ,7 ,15, [0,0,0,0])
         @font.draw_blended_utf8(@screen, @map[((y - 8 + center_y)*30)+x - 12 + center_x], x * 7, y * 15,*color)
       end
     end

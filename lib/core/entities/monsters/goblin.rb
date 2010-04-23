@@ -3,7 +3,7 @@ class Goblin < Monster
 
   def initialize(owner)
     super(owner)
-    @hp = rand(20)
+    @hp = rand(8) + 4
     @actions = {}
     @actions[Player] = Attack.new
   end
@@ -40,8 +40,30 @@ class Goblin < Monster
   end
 
   def turn_passed
-    target = self.owner.level.get_shortest_path(self.owner, self.owner.level.player.owner)
-    move(target[1]) if target[1]
+    if @hp > 2
+      target = self.owner.level.get_shortest_path(self.owner, self.owner.level.player.owner)[1]
+    else
+      target = get_fleeing_target(self.owner.level.player.owner)
+    end
+    move(target) if target    
+  end
+
+  def get_fleeing_target(player_cell)
+    delta_x = self.owner.x - player_cell.x
+    delta_y = self.owner.y - player_cell.y
+    possible_targets = []
+    if delta_x.abs >= delta_y.abs
+      (-1..1).each do |y|
+        possible_targets << self.owner.level[self.owner.x + 1, self.owner.y + y]
+      end
+    end
+    if delta_x.abs <= delta_y.abs
+      (-1..1).each do |x|
+        possible_targets << self.owner.level[self.owner.x + x, self.owner.y + 1]
+      end
+    end
+    valid_targets = possible_targets.select { |tgt| !tgt.blocked? }
+    return valid_targets[rand(valid_targets.length)]
   end
 
 end

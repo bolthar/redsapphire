@@ -5,7 +5,7 @@ module AStar
 
     attr_reader :cell
     
-    attr_writer :estimated_cost
+    attr_accessor :estimated_cost
 
     def initialize(cell)
       @cell = cell
@@ -33,12 +33,13 @@ module AStar
       return [@parent.get_path, @cell].flatten if @parent
       return [@cell]
     end
-  end
 
+  end
+  
   def get_shortest_path(start, target)
-    start_node = Node.new(start)
+    start_node  = Node.new(start)
     target_node = Node.new(target)
-    start_node.parent = nil
+    start_node.parent         = nil
     start_node.estimated_cost = estimated_cost(start, target)
     open_list   = [start_node]
     closed_list = []
@@ -57,6 +58,8 @@ module AStar
       end
     end
     target = closed_list.select { |node| node == target_node}.first
+    return target.get_path if target
+    target = closed_list.min { |a, b| a.estimated_cost <=> b.estimated_cost }
     return target.get_path if target
     return []
   end
