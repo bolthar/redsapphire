@@ -1,11 +1,11 @@
 
-module LOS
+module LineOfSight
 
   def get_line(source,target)
-    x0 = self.getPosition(source).x
-    x1 = self.getPosition(target).x
-    y0 = self.getPosition(source).y
-    y1 = self.getPosition(target).y
+    x0 = source.x
+    x1 = target.x
+    y0 = source.y
+    y1 = target.y
     cells = []
     steep = ((y1-y0).abs) > ((x1-x0).abs)
     if steep

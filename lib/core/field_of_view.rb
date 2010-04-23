@@ -1,4 +1,6 @@
-module FOV
+
+#from roguebasin
+module FieldOfView
   # Multipliers for transforming coordinates into other octants
   @@mult = [
               [1,  0,  0, -1, -1,  0,  0,  1],
@@ -45,7 +47,7 @@ module FOV
           self[mx,my].light if (dx*dx + dy*dy) < radius_sq
           if blocked
             # We've scanning a row of blocked squares
-            if self[mx, my].blocked?
+            if !self[mx, my].can_see_through?
               new_start = r_slope
               next
             else
@@ -53,7 +55,7 @@ module FOV
               light_start = new_start
             end
           else
-            if self[mx, my].blocked? and j < radius
+            if !self[mx, my].can_see_through? and j < radius
               # This is a blocking square, start a child scan
               blocked = true
               cast_light(cx, cy, j+1, light_start, l_slope,

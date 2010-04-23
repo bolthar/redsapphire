@@ -10,6 +10,10 @@ class Cell
     @y     = y
   end
 
+  def self.out_of_bounds
+    @oob = OutOfBounds.new
+  end
+
   def pan(delta_x, delta_y)
     return @level[@x - delta_x, @y - delta_y]
   end
@@ -36,6 +40,11 @@ class Cell
     return @elements.any? { |element| element.fill? }
   end
 
+  def can_see_through?
+    return true if empty?
+    return @elements.all? { |element| element.can_see_through? }
+  end
+
   def first
     return elements.first
   end
@@ -54,6 +63,10 @@ class Cell
 
   def add_message(message)
     @level.messages << message
+  end
+
+  def level
+    return @level
   end
   
   private

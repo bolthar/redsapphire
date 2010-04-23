@@ -14,6 +14,11 @@ class Entity
     old_owner.invalidate
   end
 
+  def interact_with(target)
+    action = @actions[target.class]
+    action.execute(self, target) if action
+  end
+
   def message(message)
     @owner.add_message(message)
   end

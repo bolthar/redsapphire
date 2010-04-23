@@ -1,8 +1,9 @@
 
 class Level
   include Enumerable
-  include LOS
-  include FOV
+  include LineOfSight
+  include FieldOfView
+  include AStar
 
   attr_reader :width, :height
   attr_reader :objects
@@ -45,8 +46,9 @@ class Level
     end
   end
 
-  def [](x, y)
-    return @cells[x][y]
+  def [](x, y)    
+    return @cells[x][y] if x.between?(0, @width - 1) && y.between?(0, @height - 1)
+    return Cell.out_of_bounds
   end
 
 end

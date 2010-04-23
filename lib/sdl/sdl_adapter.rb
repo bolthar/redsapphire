@@ -14,7 +14,6 @@ class SdlAdapter
     @map = Array.new(30*15, " ")
     File.open(File.join(File.dirname(__FILE__), 'tiles.txt')).lines.each do |line|
       values = line.strip.split("\t")
-      p values
       @tiles[values[0]] = {:char => values[1], 
                            :color =>
                              [values[2].split(',')[0].to_i, values[2].split(',')[1].to_i, values[2].split(',')[2].to_i]}
@@ -42,8 +41,8 @@ class SdlAdapter
         else
           color = [120,120,120]
         end
-        @screen.fill_rect(x * 8, y * 14 ,8 ,14,[0,0,0,0])
-        @font.draw_blended_utf8(@screen, @map[((y - 8 + center_y)*30)+x - 12 + center_x], x * 8, y * 14,*color)
+        @screen.fill_rect(x * 7, y * 15 ,7 ,15,[0,0,0,0])
+        @font.draw_blended_utf8(@screen, @map[((y - 8 + center_y)*30)+x - 12 + center_x], x * 7, y * 15,*color)
       end
     end
     draw_messages(level.messages.reverse.take(5))

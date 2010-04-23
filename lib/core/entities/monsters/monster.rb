@@ -1,12 +1,12 @@
 
-class Plant < Entity
+class Monster < Entity
 
   def fill?
     return true
   end
 
   def can_see_through?
-    return false
+    return true
   end
-
+  
 end

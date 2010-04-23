@@ -10,17 +10,20 @@ srand(Time.now.hash)
 level = Level.new(30, 15)
 level.each do |cell|
   unless (cell.x > 10 && cell.x < 22) && (cell.y > 3 && cell.y < 8)
-    level.objects << Wall.new(cell)
+    unless cell.x == 14 || cell.y == 2
+      level.objects << Wall.new(cell)
+    end
   end
 end
 
-cell = level.select { |cell| cell.empty? }.first
-player = Player.new(cell)
+player = Player.new(level[11,4])
 level.objects << player
 
 level.objects << Plant.new(level[20,5])
 level.objects << Plant.new(level[21,4])
 level.objects << Rat.new(level[17,6])
+level.objects << Goblin.new(level[18,6])
+level.objects << Goblin.new(level[19,6])
 
 commands = CommandSet.new(level)
 adapter = SdlAdapter.new

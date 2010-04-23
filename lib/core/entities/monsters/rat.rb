@@ -1,20 +1,41 @@
 
-class Rat < Entity
+class Rat < Monster
 
   def initialize(owner)
     super(owner)
     @hp = rand(10)
+    @actions = {}
+    @actions[Player] = Attack.new
   end
   
   def fill?
     return true
   end
 
-  def do_damage(damage)
+  def hit(target)
+    return 0
+  end
+
+  def name
+    return "the rat"
+  end
+
+  def get_damage(damage)
     @hp -= damage
     if @hp <= 0
-      message "the rat is dead!"
+      message "#{name} is dead!"
       destroy
+    end
+  end
+
+  def move(destination)
+    unless destination.blocked?
+      self.owner = destination
+      destination.each do |entity|
+        self.interact_with(entity)
+      end
+    else
+      self.interact_with(destination.first)
     end
   end
 
@@ -22,9 +43,7 @@ class Rat < Entity
     x = rand(3) - 1
     y = rand(3) - 1
     target = self.owner.pan(x, y)
-    unless target.blocked?
-      self.owner = self.owner.pan(x, y)
-    end
+    move(target)
   end
 
 
