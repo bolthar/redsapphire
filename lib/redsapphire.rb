@@ -1,5 +1,5 @@
 
-require 'headers.rb'
+require File.dirname(__FILE__) + '/headers.rb'
 
 def move(player, destination)
   player.move(destination)
@@ -7,14 +7,7 @@ end
 
 srand(Time.now.hash)
 
-level = Level.new(80, 40)
-level.each do |cell|
-  unless (cell.x > 10 && cell.x < 22) && (cell.y > 3 && cell.y < 8)
-    unless cell.x == 14 || cell.y == 2
-      level.objects << Wall.new(cell)
-    end
-  end
-end
+level = SimpleLayout.new.build(80, 40)
 
 player = Player.new(level[11,4])
 level.objects << player
