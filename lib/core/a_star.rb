@@ -43,7 +43,9 @@ module AStar
     start_node.estimated_cost = estimated_cost(start, target)
     open_list   = [start_node]
     closed_list = []
-    while open_list.any? && !closed_list.include?(target_node)
+    counter = 0
+    while open_list.any? && !closed_list.include?(target_node) && counter < 29
+      counter += 1
       current_square = open_list.sort! { |a, b| a.total_cost <=> b.total_cost }.first
       open_list.delete(current_square)
       closed_list << current_square

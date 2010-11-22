@@ -6,7 +6,7 @@ class SimpleLayout
     @height = height
     @level = Level.new(width, height)
     add_limit_walls()
-    20.times do 
+    25.times do 
       add_room(rand(width), rand(height))
     end
     return @level        
