@@ -4,7 +4,6 @@ class Rat < Monster
   def initialize(owner)
     super(owner)
     @hp = rand(10)
-    
   end
   
   def fill?

@@ -8,8 +8,9 @@ class SdlAdapter
     
   def initialize
     TTF.init
-    @font = TTF.open(File.join(File.dirname(__FILE__), 'dejavu.ttf'), 12)
-    @message_font = TTF.open(File.join(File.dirname(__FILE__), 'dejavu.ttf'), 10)
+    @screen = Screen.open(1440, 960, 0, HWSURFACE)
+    @font = TTF.open(File.join(File.dirname(__FILE__), 'proggytiny.ttf'), 24)
+    @message_font = TTF.open(File.join(File.dirname(__FILE__), 'proggytiny.ttf'), 20)
     @tiles = {}
     @map = Array.new(80*40, " ")
     File.open(File.join(File.dirname(__FILE__), 'tiles.txt')).lines.each do |line|
@@ -20,9 +21,9 @@ class SdlAdapter
     end
   end
   
-  def startup
+  def startup(handler)
     SDL.init(SDL::INIT_EVERYTHING)
-    @screen = Screen.open(720, 480, 0, HWSURFACE)
+    handler.loop
   end
   
   def render(level)
@@ -41,26 +42,26 @@ class SdlAdapter
         else
           color  = [120,120,120]
         end
-        @screen.fill_rect(x * 7, y * 15 ,7 ,15, [0,0,0,0])
-        @font.draw_blended_utf8(@screen, @map[((y - 8 + center_y)*80)+x - 12 + center_x], x * 7, y * 15,*color)
+        @screen.fill_rect(x * 14, y * 30 ,14 ,30, [0,0,0,0])
+        @font.draw_blended_utf8(@screen, @map[((y - 8 + center_y)*80)+x - 12 + center_x], x * 14, y * 30,*color)
       end
     end
     draw_messages(level.messages.reverse.take(5))
     draw_enemies(level.enemies_in_sight)
-    @screen.update_rect(0,0,640,480)
+    @screen.update_rect(0,0,1280,960)
   end
 
   def draw_messages(messages)
-    @screen.fill_rect(0, 260 , 640, 50,[0,0,0,0])
+    @screen.fill_rect(0, 520 , 1280, 100,[0,0,0,0])
     (0...messages.length).each do |line|
-      @message_font.draw_blended_utf8(@screen, messages[line], 0, (line * 10) + 260, *[255,255,255])
+      @message_font.draw_blended_utf8(@screen, messages[line], 0, (line * 20) + 520, *[255,255,255])
     end
   end
 
   def draw_enemies(enemies)
-    @screen.fill_rect(300, 50, 100, 300,[0,0,0,0])
+    @screen.fill_rect(600, 100, 200, 600,[0,0,0,0])
     (0...enemies.length).each do |index|
-      @message_font.draw_blended_utf8(@screen, "#{get_char(enemies[index].owner)} #{enemies[index].hp}",300, (index * 10) + 50, *[255,255,255])
+      @message_font.draw_blended_utf8(@screen, "#{get_char(enemies[index].owner)} #{enemies[index].hp}",600, (index * 20) + 100, *[255,255,255])
     end
   end
 
