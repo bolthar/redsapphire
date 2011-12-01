@@ -20,7 +20,12 @@ class GosuAdapter < Gosu::Window
     @message_font = Gosu::Font.new(self, File.join(File.dirname(__FILE__), 'proggytiny.ttf'), 20)
     @tiles = {}
     @gray = Gosu::Color.argb(Integer("0xff787878"))
-    @map = Array.new(80*40, " ")
+    @map = []
+    @center_x = -1
+    @center_y = -1
+    (80*40).times do
+      @map << { :color => Gosu::Color::BLACK, :char => " " } 
+    end
     File.open(File.join(File.dirname(__FILE__), 'tiles.txt')).lines.each do |line|
       values = line.strip.split("\t")
       @tiles[values[0]] = {:char => values[1], 
@@ -40,25 +45,35 @@ class GosuAdapter < Gosu::Window
   
   def render(level)
     @level = level
+    prepare_for_draw
+  end
+
+  def prepare_for_draw
+    @center_x    = @level.player.x
+    @center_y    = @level.player.y
+    @center_x = 20 if @center_x < 20 
+    @center_y = 12 if @center_y < 12
+    @center_x = @level.width - 20 if @center_x >= @level.width - 20
+    @center_y = @level.height - 12 if @center_y >= @level.height - 12
+    (0...40).each do |x|
+      (0...24).each do |y|
+        cell = @level[x - 20 + @center_x, y - 12 + @center_y]
+	map_cell = @map[((y - 12 + @center_y)*80)+ x - 20 + @center_x] 
+        if cell.on_sight?
+          map_cell[:char]  = get_char(cell)
+          map_cell[:color] = get_rgb(cell)
+        else
+          map_cell[:color] = @gray 
+        end
+      end
+    end
   end
 
   def draw
-    center_x    = @level.player.x
-    center_y    = @level.player.y
-    center_x = 20 if center_x < 20 
-    center_y = 12 if center_y < 12
-    center_x = @level.width - 12 if center_x >= @level.width - 12
-    center_y = @level.height - 8 if center_y >= @level.height - 8
     (0...40).each do |x|
       (0...24).each do |y|
-        cell = @level[x - 20 + center_x, y - 12 + center_y]
-        if cell.on_sight?
-          @map[((y - 12 + center_y)*80)+ x - 20 + center_x] = get_char(cell)
-          color = get_rgb(cell)
-        else
-          color = @gray 
-        end
-        @font.draw(@map[((y - 12 + center_y)*80)+x - 20 + center_x], x * 14, y * 22, 1, 1, 1, color)
+	map_cell = @map[((y - 12 + @center_y)*80)+ x - 20 + @center_x] 
+        @font.draw(map_cell[:char], x * 14, y * 22, 1, 1, 1, map_cell[:color])
       end
     end
     draw_messages(@level.messages.reverse.take(5))
