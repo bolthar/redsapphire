@@ -19,13 +19,13 @@ module FieldOfView
       8.times do |oct|
           cast_light start_x, start_y, 1, 1.0, 0.0, radius,
               @@mult[0][oct],@@mult[1][oct],
-              @@mult[2][oct], @@mult[3][oct], 0
+              @@mult[2][oct], @@mult[3][oct]
       end
   end
 
   private
   # Recursive light-casting function
-  def cast_light(cx, cy, row, light_start, light_end, radius, xx, xy, yx, yy, id)
+  def cast_light(cx, cy, row, light_start, light_end, radius, xx, xy, yx, yy)
     return if light_start < light_end
     radius_sq = radius * radius
     (row..radius).each do |j| # .. is inclusive
@@ -59,7 +59,7 @@ module FieldOfView
               # This is a blocking square, start a child scan
               blocked = true
               cast_light(cx, cy, j+1, light_start, l_slope,
-                         radius, xx, xy, yx, yy, id+1)
+                         radius, xx, xy, yx, yy)
               new_start = r_slope
             end
           end
