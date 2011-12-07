@@ -39,7 +39,8 @@ class Level
   end
 
   def enemies_in_sight
-    return @objects.select { |obj| obj.owner.on_sight? && obj.kind_of?(Monster) }
+    my_player_fov = self.player.field_of_view
+    return @objects.select { |obj| my_player_fov.include?(obj.owner) && obj.kind_of?(Monster) }
   end
 
   def each

@@ -41,13 +41,21 @@ class Entity
     
   end
 
+  def field_of_view
+    return @field_of_view
+  end
+
+  def field_of_view=(cells)
+    cells.each { |x| x.light }
+    @field_of_view = cells
+  end
+
   def owner=(new_owner)
     old_owner = @owner
     @owner    = new_owner
     old_owner.invalidate
     @owner.invalidate
   end
-
 
   def symbol
     return self.class.to_s

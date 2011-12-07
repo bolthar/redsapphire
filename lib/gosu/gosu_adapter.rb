@@ -49,8 +49,9 @@ class GosuAdapter < Gosu::Window
   end
 
   def prepare_for_draw
-    @center_x    = @level.player.x
-    @center_y    = @level.player.y
+    player = @level.player
+    @center_x    = player.x
+    @center_y    = player.y
     @center_x = 20 if @center_x < 20 
     @center_y = 12 if @center_y < 12
     @center_x = @level.width - 20 if @center_x >= @level.width - 20
@@ -59,7 +60,7 @@ class GosuAdapter < Gosu::Window
       (0...24).each do |y|
         cell = @level[x - 20 + @center_x, y - 12 + @center_y]
 	map_cell = @map[((y - 12 + @center_y)*80)+ x - 20 + @center_x] 
-        if cell.on_sight?
+        if player.field_of_view.include?(cell)
           map_cell[:char]  = get_char(cell)
           map_cell[:color] = get_rgb(cell)
         else
