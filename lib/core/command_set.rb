@@ -13,6 +13,8 @@ class CommandSet
     @commands[:numpad4] = Move.new(-1, 0)
     @commands[:numpad7] = Move.new(-1, -1)
     @commands[:q]       = Quit.new
+    @commands[:g]       = Get.new
+    @commands[:a]       = Quaff.new
   end
 
   def handle(symbol)

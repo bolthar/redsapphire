@@ -23,6 +23,7 @@ class GosuEventHandler
     @keyMap[Gosu::KbQ] = :q
     @keyMap[Gosu::KbI] = :i
     @keyMap[Gosu::KbG] = :g
+    @keyMap[Gosu::KbA] = :a
     @callback = block
   end
 

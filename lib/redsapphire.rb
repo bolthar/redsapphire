@@ -33,6 +33,9 @@ end
   level.objects << Goblin.new(get_empty_cell(level))
 end
 
+30.times do
+  level.objects << Potion.new(get_empty_cell(level))
+end
 #File.open("test.mrs",'w') do |file| 
 #  file << Marshal.dump(level)
 #end  

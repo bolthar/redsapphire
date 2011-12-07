@@ -4,3 +4,4 @@ Plant	P	0,255,0
 Rat	r	160,40,100
 Goblin	g	255,255,255
 Troll	T	100,0,40
+Potion	!	 0,0,255

@@ -83,7 +83,7 @@ class GosuAdapter < Gosu::Window
 
   def draw_messages(messages)
     (0...messages.length).each do |line|
-      @message_font.draw(messages[line], 0, (line * 20) + 520, 1, 1, 1, Gosu::Color::WHITE)
+      @message_font.draw(messages[line], 0, (line * 20) + 600, 1, 1, 1, Gosu::Color::WHITE)
     end
   end
 

@@ -40,7 +40,9 @@ class Level
 
   def enemies_in_sight
     my_player_fov = self.player.field_of_view
-    return @objects.select { |obj| my_player_fov.include?(obj.owner) && obj.kind_of?(Monster) }
+    enemies =  @objects.select { |obj| my_player_fov.include?(obj.owner) && obj.kind_of?(Monster) }
+    enemies.insert(0, self.player)
+    return enemies
   end
 
   def each
