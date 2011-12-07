@@ -21,6 +21,10 @@ level = SimpleLayout.new.build(80, 40)
 player = Player.new(get_empty_cell(level))
 level.objects << player
 
+cells = level.get_fov(player.x, player.y, 7)
+
+p cells
+=begin
 10.times do 
   level.objects << Rat.new(get_empty_cell(level))
 end
@@ -63,3 +67,4 @@ end
 level.do_fov(player.x, player.y, 7)
 adapter.render(level)
 adapter.startup(event_handler)
+=end
