@@ -21,7 +21,7 @@ level = SimpleLayout.new.build(80, 40)
 player = Player.new(get_empty_cell(level))
 level.objects << player
 
-10.times do 
+4.times do 
   level.objects << Rat.new(get_empty_cell(level))
 end
 
@@ -29,7 +29,7 @@ end
   level.objects << Plant.new(get_empty_cell(level))
 end
 
-3.times do 
+13.times do 
   level.objects << Goblin.new(get_empty_cell(level))
 end
 

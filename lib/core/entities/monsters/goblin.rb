@@ -3,6 +3,7 @@ class Goblin < Monster
 
   def initialize(owner)
     super(owner)
+    @sleeping = true
     @hp = rand(8) + 4
   end
 
@@ -19,8 +20,15 @@ class Goblin < Monster
   end
 
   def turn_passed
+    if !@field_of_view
+      @field_of_view = self.owner.level.get_fov(self, 5)
+    end
+    @field_of_view = self.owner.level.get_fov(self, 5) unless @sleeping
     if @hp > 2
-      target = self.owner.level.get_shortest_path(self.owner, self.owner.level.player.owner)[1]
+      if(@field_of_view.include?(self.owner.level.player.owner)) 
+        @sleeping = false
+        target = self.owner.level.get_shortest_path(self.owner, self.owner.level.player.owner)[1]
+      end
     else
       target = get_fleeing_target(self.owner.level.player.owner)
     end

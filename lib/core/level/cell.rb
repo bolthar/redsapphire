@@ -2,7 +2,7 @@
 class Cell
   include Enumerable
 
-  attr_reader :x, :y
+  attr_reader :x, :y, :level
 
   def initialize(level, x, y)
     @level = level
