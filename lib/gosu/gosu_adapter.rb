@@ -28,9 +28,10 @@ class GosuAdapter < Gosu::Window
     end
     File.open(File.join(File.dirname(__FILE__), 'tiles.txt')).lines.each do |line|
       values = line.strip.split("\t")
-      @tiles[values[0]] = {:char => values[1], 
-                           :color =>
-                             [values[2].split(',')[0].to_i, values[2].split(',')[1].to_i, values[2].split(',')[2].to_i]}
+      @tiles[values[0]] = {
+        :char  => values[1], 
+        :color => [values[2].split(',')[0].to_i, values[2].split(',')[1].to_i, values[2].split(',')[2].to_i]
+      }
     end
   end
   
@@ -59,7 +60,7 @@ class GosuAdapter < Gosu::Window
     (0...40).each do |x|
       (0...24).each do |y|
         cell = @level[x - 20 + @center_x, y - 12 + @center_y]
-	map_cell = @map[((y - 12 + @center_y)*80)+ x - 20 + @center_x] 
+        map_cell = @map[((y - 12 + @center_y)*80)+ x - 20 + @center_x] 
         if player.field_of_view.include?(cell)
           map_cell[:char]  = get_char(cell)
           map_cell[:color] = get_rgb(cell)
@@ -73,7 +74,7 @@ class GosuAdapter < Gosu::Window
   def draw
     (0...40).each do |x|
       (0...24).each do |y|
-	map_cell = @map[((y - 12 + @center_y)*80)+ x - 20 + @center_x] 
+      	map_cell = @map[((y - 12 + @center_y)*80)+ x - 20 + @center_x] 
         @font.draw(map_cell[:char], x * 14, y * 22, 1, 1, 1, map_cell[:color])
       end
     end

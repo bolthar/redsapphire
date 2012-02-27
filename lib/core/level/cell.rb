@@ -37,12 +37,12 @@ class Cell
 
   def blocked?
     return false if empty?
-    return @elements.any? { |element| element.fill? }
+    return @elements.any? { |el| el.fill? }
   end
 
   def can_see_through?
     return true if empty?
-    return @elements.all? { |element| element.can_see_through? }
+    return @elements.all? { |el| el.can_see_through? }
   end
 
   def first
