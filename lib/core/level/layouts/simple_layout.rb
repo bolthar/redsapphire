@@ -14,7 +14,7 @@ class SimpleLayout
   
   def add_limit_walls()
     @level.select { |cell| cell.x == 0 || cell.x == @width - 1 || cell.y == 0 || cell.y == @height - 1}.each do |cell|
-      @level.objects << Wall.new(cell)
+      cell << Wall.new
     end
   end
   
@@ -27,10 +27,9 @@ class SimpleLayout
       cell.y.between?(y, y + room_height) && (cell.x == x || cell.x == x + room_width)      
     end
     borders.each do |cell|
-      @level.objects << Wall.new(cell)
+      cell << Wall.new
     end
     door_cell = borders[rand(borders.count)]
-    @level.objects.delete(door_cell.first)   
-    door_cell.invalidate
+    door_cell.objects.delete(door_cell.first)   
   end
 end

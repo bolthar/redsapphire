@@ -95,14 +95,14 @@ class GosuAdapter < Gosu::Window
   end
 
   def get_char(cell)
-    return '.' if cell.empty?
+    return '.' unless cell.any?
     return @tiles[cell.first.symbol][:char]
   end
 
   def get_rgb(cell)
     return Gosu::Color::BLACK unless cell.visited?
+    return Gosu::Color::WHITE unless cell.any?    
     return @gray unless cell.on_sight?
-    return Gosu::Color::WHITE if cell.empty?    
     return color_from_rgb(*@tiles[cell.first.symbol][:color])
   end
 

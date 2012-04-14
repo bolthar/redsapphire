@@ -6,7 +6,6 @@ class Level
   include AStar
 
   attr_reader :width, :height
-  attr_reader :objects
   attr_reader :messages
   
   def initialize(width, height)
@@ -32,15 +31,21 @@ class Level
   end
 
   def do_turn
-    @objects.delete_if { |obj| obj.owner == nil}
-    @objects.each do |obj|
-      obj.turn_passed
+    self.each do |cell|
+      cell.objects.each do |obj|
+        obj.turn_passed
+      end
     end
   end
 
   def enemies_in_sight
     my_player_fov = self.player.field_of_view
-    enemies =  @objects.select { |obj| my_player_fov.include?(obj.owner) && obj.kind_of?(Monster) }
+    enemies = []
+    self.each do |cell|
+      cell.each do |obj|
+        enemies << obj if my_player_fov.include?(obj.owner) && obj.kind_of?(Monster)
+      end
+    end
     enemies.insert(0, self.player)
     return enemies
   end

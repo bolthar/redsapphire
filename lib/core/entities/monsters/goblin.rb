@@ -1,8 +1,8 @@
 
 class Goblin < Monster
 
-  def initialize(owner)
-    super(owner)
+  def initialize
+    super
     @sleeping = true
     @hp = rand(8) + 4
   end

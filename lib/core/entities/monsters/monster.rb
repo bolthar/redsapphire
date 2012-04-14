@@ -2,8 +2,8 @@
 class Monster < Entity
 
   attr_reader :hp
-  def initialize(owner)
-    super(owner)
+  def initialize
+    super
     @actions = {}
     @actions[Player] = Attack.new
   end
@@ -18,7 +18,7 @@ class Monster < Entity
 
   def move(destination)
     unless destination.blocked?
-      self.owner = destination
+      destination << self
       destination.each do |entity|
         self.interact_with(entity)
       end

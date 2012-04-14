@@ -11,30 +11,30 @@ end
 
 def get_empty_cell(level) 
   cell = level[rand(level.width), rand(level.height)]
-  return cell.empty? ? cell : get_empty_cell(level)
+  return cell.any? ? get_empty_cell(level) : cell
 end
 
 srand(Time.now.hash)
 
 level = SimpleLayout.new.build(80, 40)
 
-player = Player.new(get_empty_cell(level))
-level.objects << player
+player = Player.new
+get_empty_cell(level) << player
 
 4.times do 
-  level.objects << Rat.new(get_empty_cell(level))
+  get_empty_cell(level) << Rat.new
 end
 
 334.times do 
-  level.objects << Plant.new(get_empty_cell(level))
+  get_empty_cell(level) << Plant.new
 end
 
 13.times do 
-  level.objects << Goblin.new(get_empty_cell(level))
+  get_empty_cell(level) << Goblin.new
 end
 
 30.times do
-  level.objects << Potion.new(get_empty_cell(level))
+  get_empty_cell(level) << Potion.new
 end
 #File.open("test.mrs",'w') do |file| 
 #  file << Marshal.dump(level)

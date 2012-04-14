@@ -1,17 +1,17 @@
 
 class Entity
 
-  attr_reader :owner
-  
-  def initialize(owner)
-    @owner = owner
-    @owner.invalidate
+  def owner
+    return @owner
+  end
+
+  def owner=(container)
+    @owner.objects.delete(self) if @owner
+    @owner = container
   end
 
   def destroy
-    old_owner = @owner
     @owner = nil
-    old_owner.invalidate
   end
 
   def interact_with(target)
@@ -48,13 +48,6 @@ class Entity
   def field_of_view=(cells)
     cells.each { |x| x.light }
     @field_of_view = cells
-  end
-
-  def owner=(new_owner)
-    old_owner = @owner
-    @owner    = new_owner
-    old_owner.invalidate
-    @owner.invalidate
   end
 
   def symbol

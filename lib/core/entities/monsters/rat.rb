@@ -1,8 +1,8 @@
 
 class Rat < Monster
 
-  def initialize(owner)
-    super(owner)
+  def initialize
+    super
     @hp = rand(10)
   end
   

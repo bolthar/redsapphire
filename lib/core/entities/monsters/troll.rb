@@ -1,8 +1,8 @@
 
 class Troll < Monster
 
-  def initialize(owner)
-    super(owner)
+  def initialize
+    super
     @hp = rand(20) + 6
   end
   

@@ -3,8 +3,8 @@ class Player < Entity
 
   attr_reader :hp
 
-  def initialize(owner)
-    super(owner)
+  def initialize
+    super
     @actions = {}
     @actions[Monster] = Attack.new
     @healing_counter = 0
@@ -59,7 +59,7 @@ class Player < Entity
 
   def move(destination)
     unless destination.blocked? && @hp > 0
-      self.owner = destination
+      destination << self
       destination.each do |entity|
         self.interact_with(entity)
       end
@@ -68,9 +68,6 @@ class Player < Entity
     end
   end
 
-  def invalidate
-  end 
-
   def pick_up
     potion = self.owner.select { |x| x.kind_of? Potion }.first
     if potion
@@ -78,7 +75,6 @@ class Player < Entity
       @potions << potion
       message "You get a potion!"
     end
-
   end
 
 end

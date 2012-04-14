@@ -3,15 +3,28 @@ class Cell
   include Enumerable
 
   attr_reader :x, :y, :level
+  attr_reader :objects
 
   def initialize(level, x, y)
-    @level = level
-    @x     = x
-    @y     = y
+    @level   = level
+    @x       = x
+    @y       = y
+    @objects = []
+  end
+  
+  def each
+    @objects.each do |obj|
+      yield(obj)
+    end
+  end
+
+  def <<(obj)
+    obj.owner = self
+    @objects << obj
   end
 
   def self.out_of_bounds
-    @oob = OutOfBounds.new
+    @oob ||= OutOfBounds.new
   end
 
   def pan(delta_x, delta_y)
@@ -36,45 +49,17 @@ class Cell
   end
 
   def blocked?
-    return false if empty?
-    return @elements.any? { |el| el.fill? }
+    return false unless @objects.any?
+    return @objects.any? { |el| el.fill? }
   end
 
   def can_see_through?
-    return true if empty?
-    return @elements.all? { |el| el.can_see_through? }
-  end
-
-  def first
-    return elements.first
-  end
-
-  def empty?
-    return elements.empty?
-  end
-  
-  def each(&block)
-    return elements.each(&block)
-  end
-
-  def invalidate
-    @elements = nil
+    return true unless objects.any?
+    return @objects.all? { |el| el.can_see_through? }
   end
 
   def add_message(message)
     @level.messages << message
-  end
-
-  def level
-    return @level
-  end
-  
-  private
-  def elements
-    @elements = @level.objects.select do |entity|
-      entity.owner == self
-    end unless @elements
-    return @elements
   end
 
 end
