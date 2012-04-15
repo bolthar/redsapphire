@@ -20,12 +20,8 @@ class GosuAdapter < Gosu::Window
     @message_font = Gosu::Font.new(self, File.join(File.dirname(__FILE__), 'proggytiny.ttf'), 20)
     @tiles = {}
     @gray = Gosu::Color.argb(Integer("0xff787878"))
-    @map = []
     @center_x = -1
     @center_y = -1
-    (80*40).times do
-      @map << { :color => Gosu::Color::BLACK, :char => " " } 
-    end
     File.open(File.join(File.dirname(__FILE__), 'tiles.txt')).lines.each do |line|
       values = line.strip.split("\t")
       @tiles[values[0]] = {
@@ -46,21 +42,30 @@ class GosuAdapter < Gosu::Window
   
   def render(level)
     @level = level
+    unless @map
+      @map = []
+      (@level.width*@level.height).times do
+        @map << { :color => Gosu::Color::BLACK, :char => " " } 
+      end
+    end
     prepare_for_draw
   end
+
+  VISIBLE_AREA_RADIUS_X = 20
+  VISIBLE_AREA_RADIUS_Y = 12
 
   def prepare_for_draw
     player = @level.player
     @center_x    = player.x
     @center_y    = player.y
-    @center_x = 20 if @center_x < 20 
-    @center_y = 12 if @center_y < 12
-    @center_x = @level.width - 20 if @center_x >= @level.width - 20
-    @center_y = @level.height - 12 if @center_y >= @level.height - 12
-    (0...40).each do |x|
-      (0...24).each do |y|
-        cell = @level[x - 20 + @center_x, y - 12 + @center_y]
-        map_cell = @map[((y - 12 + @center_y)*80)+ x - 20 + @center_x] 
+    @center_x = VISIBLE_AREA_RADIUS_X if @center_x < VISIBLE_AREA_RADIUS_X 
+    @center_y = VISIBLE_AREA_RADIUS_Y if @center_y < VISIBLE_AREA_RADIUS_Y
+    @center_x = @level.width - VISIBLE_AREA_RADIUS_X if @center_x >= @level.width - VISIBLE_AREA_RADIUS_X
+    @center_y = @level.height - VISIBLE_AREA_RADIUS_Y if @center_y >= @level.height - VISIBLE_AREA_RADIUS_Y
+    (0...VISIBLE_AREA_RADIUS_X*2).each do |x|
+      (0...VISIBLE_AREA_RADIUS_Y*2).each do |y|
+        cell = @level[x - VISIBLE_AREA_RADIUS_X + @center_x, y - VISIBLE_AREA_RADIUS_Y + @center_y]
+        map_cell = @map[((y - VISIBLE_AREA_RADIUS_Y + @center_y)*@level.width)+ x - VISIBLE_AREA_RADIUS_X + @center_x] 
         if player.field_of_view.include?(cell)
           map_cell[:char]  = get_char(cell)
           map_cell[:color] = get_rgb(cell)
@@ -72,9 +77,9 @@ class GosuAdapter < Gosu::Window
   end
 
   def draw
-    (0...40).each do |x|
-      (0...24).each do |y|
-      	map_cell = @map[((y - 12 + @center_y)*80)+ x - 20 + @center_x] 
+    (0...VISIBLE_AREA_RADIUS_X*2).each do |x|
+      (0...VISIBLE_AREA_RADIUS_Y*2).each do |y|
+      	map_cell = @map[((y - VISIBLE_AREA_RADIUS_Y + @center_y)*@level.width)+ x - VISIBLE_AREA_RADIUS_X + @center_x] 
         @font.draw(map_cell[:char], x * 14, y * 22, 1, 1, 1, map_cell[:color])
       end
     end
@@ -96,14 +101,14 @@ class GosuAdapter < Gosu::Window
 
   def get_char(cell)
     return '.' unless cell.any?
-    return @tiles[cell.first.symbol][:char]
+    return @tiles[cell.to_a.last.symbol][:char]
   end
 
   def get_rgb(cell)
     return Gosu::Color::BLACK unless cell.visited?
     return Gosu::Color::WHITE unless cell.any?    
     return @gray unless cell.on_sight?
-    return color_from_rgb(*@tiles[cell.first.symbol][:color])
+    return color_from_rgb(*@tiles[cell.to_a.last.symbol][:color])
   end
 
 end

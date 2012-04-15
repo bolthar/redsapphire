@@ -11,6 +11,7 @@ class Entity
   end
 
   def destroy
+    @owner.objects.delete(self)
     @owner = nil
   end
 

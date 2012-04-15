@@ -1,26 +1,13 @@
 
 class Cell
-  include Enumerable
+  include Container
 
   attr_reader :x, :y, :level
-  attr_reader :objects
 
   def initialize(level, x, y)
     @level   = level
     @x       = x
     @y       = y
-    @objects = []
-  end
-  
-  def each
-    @objects.each do |obj|
-      yield(obj)
-    end
-  end
-
-  def <<(obj)
-    obj.owner = self
-    @objects << obj
   end
 
   def self.out_of_bounds

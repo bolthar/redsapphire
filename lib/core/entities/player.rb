@@ -1,5 +1,6 @@
 
 class Player < Entity
+  include Container
 
   attr_reader :hp
 
@@ -10,11 +11,10 @@ class Player < Entity
     @healing_counter = 0
     @hp = 10
     @max_hp = 10
-    @potions = []
   end
 
   def quaff
-    potion = @potions.pop
+    potion = objects.first
     if potion
       heal = rand(3) + 2
       message "You drink a potion. You gain #{heal} hp!"
@@ -71,8 +71,7 @@ class Player < Entity
   def pick_up
     potion = self.owner.select { |x| x.kind_of? Potion }.first
     if potion
-      potion.owner = self
-      @potions << potion
+      self << potion
       message "You get a potion!"
     end
   end

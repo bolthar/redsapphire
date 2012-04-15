@@ -12,7 +12,6 @@ class Level
     @height = height
     @width = width
     @messages = []
-    @objects = []
     @cells = []
     for x in 0...width
       @cells[x] = []
@@ -28,6 +27,7 @@ class Level
         return element if element.kind_of? Player
       end
     end
+    return nil
   end
 
   def do_turn
