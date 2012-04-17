@@ -31,11 +31,9 @@ class Level
   end
 
   def do_turn
-    all_objects = self.map { |x| x.objects }.flatten
-    all_objects.each do |obj|
+    self.objects.each do |obj|
       obj.turn_passed
     end
-
   end
 
   def enemies_in_sight
@@ -56,6 +54,10 @@ class Level
         yield(cell)
       end
     end
+  end
+
+  def objects
+    return self.map { |x| x.objects }.flatten 
   end
 
   def [](x, y)    

@@ -16,7 +16,7 @@ class GosuAdapter < Gosu::Window
 
   def initialize
     super 1024, 768, false
-    @font = Gosu::Font.new(self, File.join(File.dirname(__FILE__), 'proggytiny.ttf'), 20)
+    @font = Gosu::Font.new(self, File.join(File.dirname(__FILE__), 'proggytiny.ttf'), 22)
     @message_font = Gosu::Font.new(self, File.join(File.dirname(__FILE__), 'proggytiny.ttf'), 20)
     @tiles = {}
     @gray = Gosu::Color.argb(Integer("0xff787878"))
