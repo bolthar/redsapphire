@@ -14,6 +14,7 @@ class SdlEventHandler
     @keyMap[SDL::Key::Q] = :q
     @keyMap[SDL::Key::I] = :i
     @keyMap[SDL::Key::G] = :g
+    @keyMap[SDL::Key::A] = :a
     @callback = block
   end
 

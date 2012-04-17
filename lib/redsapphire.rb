@@ -45,13 +45,13 @@ commands = CommandSet.new(level)
 #  level = Marshal.load(file)
 #end
 
-if ARGV[0] == "--sdl" 
+if ARGV[0] != "--gosu" 
   require_all File.join(File.dirname(__FILE__), 'sdl')
   adapter = SdlAdapter.new
   event_handler = SdlEventHandler.new do |input|
     commands.handle(input)
     level.do_turn
-    level.do_fov(player.x, player.y, 7)
+    level.get_fov(player, 7)
     adapter.render(level)
   end
 else
