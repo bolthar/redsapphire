@@ -31,11 +31,11 @@ class Level
   end
 
   def do_turn
-    self.each do |cell|
-      cell.objects.each do |obj|
-        obj.turn_passed
-      end
+    all_objects = self.map { |x| x.objects }.flatten
+    all_objects.each do |obj|
+      obj.turn_passed
     end
+
   end
 
   def enemies_in_sight
