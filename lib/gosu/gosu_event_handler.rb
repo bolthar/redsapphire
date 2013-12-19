@@ -20,6 +20,14 @@ class GosuEventHandler
     @keyMap[65436] = :numpad1
     @keyMap[65430] = :numpad4
     @keyMap[65429] = :numpad7
+    @keyMap[Gosu::KbH] = :numpad4
+    @keyMap[Gosu::KbJ] = :numpad2
+    @keyMap[Gosu::KbK] = :numpad8
+    @keyMap[Gosu::KbL] = :numpad6
+    @keyMap[Gosu::KbY] = :numpad7
+    @keyMap[Gosu::KbU] = :numpad9
+    @keyMap[Gosu::KbB] = :numpad1
+    @keyMap[Gosu::KbN] = :numpad3
     @keyMap[Gosu::KbQ] = :q
     @keyMap[Gosu::KbI] = :i
     @keyMap[Gosu::KbG] = :g
